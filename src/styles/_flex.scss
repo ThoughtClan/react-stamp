@@ -22,6 +22,12 @@
  * SOFTWARE.
  */
 
-@mixin use-flex($align: center, $justify: flex-start, $direction: row) {
+@mixin use-flex($align: center, $justify: flex-start, $direction: row, $flex: 1) {
+  display: flex;
+  flex: $flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+
   @content
 }
