@@ -27,7 +27,7 @@ import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
-import CoordinatesEditor from './editors/CoordinatesEditor';
+import { Vector2DEditor } from './editors';
 
 import './PropertiesEditor.scss';
 
@@ -57,11 +57,11 @@ export default function PropertiesEditor({
             </div>
 
             <div className="editors--group">
-              <CoordinatesEditor
+              <Vector2DEditor
                 value={{ x: selectedShape?.x, y: selectedShape?.y }}
                 onValueChange={(v) => onEditShape(Object.entries(v).map(([key, value]) => ({ key, value })))}
               />
-              <CoordinatesEditor
+              <Vector2DEditor
                 value={{ x: selectedShape?.width, y: selectedShape?.height }}
                 onValueChange={(v) => onEditShape([{ key: 'width', value: v.x }, { key: 'height', value: v.y }])}
                 labelX="w"

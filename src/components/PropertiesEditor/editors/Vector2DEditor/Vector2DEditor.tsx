@@ -24,7 +24,7 @@
 
 import React from 'react';
 
-import './CoordinatesEditor.scss';
+import './Vector2DEditor.scss';
 
 interface ICoordinatesEditorProps {
   labelX?: string;

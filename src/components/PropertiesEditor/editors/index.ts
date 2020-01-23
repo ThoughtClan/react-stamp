@@ -22,4 +22,4 @@
  * SOFTWARE.
  */
 
-export { default } from './CoordinatesEditor';
+export { default as Vector2DEditor } from './Vector2DEditor';
