@@ -25,6 +25,8 @@
 import * as React from 'react';
 import StencilItem from '../StencilItem';
 
+import './Stencil.scss';
+
 export default function Stencil() {
   return (
     <div className="stencil">

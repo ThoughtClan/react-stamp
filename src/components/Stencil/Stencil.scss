@@ -22,11 +22,10 @@
  * SOFTWARE.
  */
 
-import { IShape } from "./IShape";
+@import '../../styles/colours';
 
-export default interface ICanvasData {
-  height?: number;
-  width?: number;
-  shapes: IShape[];
-  background?: string;
+.stamp-creator .stencil {
+  padding: 0 10px;
+  height: 100%;
+  border-right: 1px solid $grey-3;
 }

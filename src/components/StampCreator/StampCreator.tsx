@@ -36,7 +36,7 @@ export interface IStampCreatorProps {}
 
 export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps) {
   return (
-    <div className="na-stamp-wrapper">
+    <div className="stamp-creator">
       <DndProvider backend={HTML5Backend}>
         <Stencil />
         <DroppableCanvas {...props} />

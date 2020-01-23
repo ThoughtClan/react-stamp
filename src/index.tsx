@@ -22,4 +22,6 @@
  * SOFTWARE.
  */
 
+import './styles/main.scss';
+
 export { default as StampCreator } from './components/StampCreator';

@@ -22,11 +22,4 @@
  * SOFTWARE.
  */
 
-import { IShape } from "./IShape";
-
-export default interface ICanvasData {
-  height?: number;
-  width?: number;
-  shapes: IShape[];
-  background?: string;
-}
+export { default } from './TransformableShape';

@@ -24,11 +24,11 @@
 
 @import '../../styles/flex';
 
-.na-stamp-wrapper {
+.stamp-creator {
   height: 100%;
   width: 100%;
 
-  @include use-flex() {
+  @include use-flex($align: flex-start) {
     flex: 1;
   }
 }
