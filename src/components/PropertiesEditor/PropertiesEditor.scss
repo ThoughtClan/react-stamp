@@ -22,5 +22,16 @@
  * SOFTWARE.
  */
 
-export { default } from './DroppableCanvas';
-export * from './DroppableCanvas';
+@import '../../styles/flex';
+@import '../../styles/colours';
+
+.stamp-creator .properties-editor {
+  height: 100%;
+  border-left: 1px solid $grey-3;
+  background: $grey-5;
+
+  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
+    min-width: 250px;
+    flex-wrap: wrap;
+  }
+}

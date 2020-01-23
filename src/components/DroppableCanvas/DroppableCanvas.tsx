@@ -33,16 +33,22 @@ import Colours from '../../util/colours';
 import TransformableShape from '../TransformableShape';
 import { ITransformableShapeProps } from '../TransformableShape/TransformableShape';
 
+import './DroppableCanvas.scss';
+
 export interface IDroppableCanvasProps {
   canvasData: ICanvasData;
   onCanvasChanged: (data: ICanvasData) => void;
   onCreateShape?: (type: ShapeType, item: DragObjectWithType, monitor: DropTargetMonitor) => IShape;
+  onSelectShape: (shape: IShape|null) => void;
+  selectedShape: IShape|null;
 }
 
 export default function DroppableCanvas({
   canvasData = { shapes: [] },
   onCanvasChanged,
   onCreateShape,
+  onSelectShape,
+  selectedShape,
 }: IDroppableCanvasProps) {
   /**
    * Initialisation
@@ -51,8 +57,6 @@ export default function DroppableCanvas({
 
   const stageRef = React.useRef<Konva.Stage|any>(null);
   const layerRef = React.useRef<Konva.Layer>(null);
-
-  const [selectedShape, setSelectedShape] = React.useState<IShape|null>(null);
 
   /**
    * Other hooks
@@ -119,10 +123,8 @@ export default function DroppableCanvas({
   const onContextMenu = React.useCallback(({ id }: IShape, event) => {
     event.evt.preventDefault();
     setShapes(shapes.filter(s => s.id !== id));
-    setSelectedShape(null);
+    onSelectShape(null);
   }, [shapes]);
-
-  const onSelectShape = React.useCallback((s: IShape) => setSelectedShape(s), []);
 
   const onShapeUpdate = (shape: IShape) => {
     const newShapes = [...shapes];
@@ -136,12 +138,12 @@ export default function DroppableCanvas({
     setShapes(newShapes);
 
     if (selectedShape?.id === shape.id) {
-      setSelectedShape(shape);
+      onSelectShape(shape);
     }
   };
 
   const onCanvasClick = React.useCallback(() => {
-    setSelectedShape(null);
+    onSelectShape(null);
   }, []);
 
   /**
@@ -192,7 +194,7 @@ export default function DroppableCanvas({
         ref={stageRef}
         height={canvasData.height ?? window.innerHeight}
         width={canvasData.width ?? window.innerWidth - 50}
-        style={{ backgroundColor: Colours.Transparent }}
+        style={{ backgroundColor: Colours.White }}
       >
         <ReactKonva.Layer ref={layerRef} _useStrictMode>
           {

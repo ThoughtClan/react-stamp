@@ -22,5 +22,23 @@
  * SOFTWARE.
  */
 
-export { default } from './DroppableCanvas';
-export * from './DroppableCanvas';
+import * as React from 'react';
+import { IShape } from '../../entities/IShape';
+
+import './PropertiesEditor.scss';
+
+export interface IPropertiesEditorProps {
+  selectedShape: IShape|null;
+  onPropertiesChanged: (shape: IShape) => void;
+}
+
+export default function PropertiesEditor({
+  selectedShape,
+  onPropertiesChanged,
+}: IPropertiesEditorProps) {
+  return (
+    <div className="properties-editor">
+
+    </div>
+  )
+}

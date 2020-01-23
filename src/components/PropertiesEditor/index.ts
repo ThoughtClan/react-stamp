@@ -22,5 +22,5 @@
  * SOFTWARE.
  */
 
-export { default } from './DroppableCanvas';
-export * from './DroppableCanvas';
+export { default } from './PropertiesEditor';
+export * from './PropertiesEditor';

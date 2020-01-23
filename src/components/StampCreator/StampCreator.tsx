@@ -27,19 +27,35 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import Stencil from '../Stencil';
-import DroppableCanvas from '../DroppableCanvas';
-import { IDroppableCanvasProps } from '../DroppableCanvas/DroppableCanvas';
+import DroppableCanvas, { IDroppableCanvasProps } from '../DroppableCanvas';
+import PropertiesEditor, { IPropertiesEditorProps } from '../PropertiesEditor';
+import { IShape } from '../../entities/IShape';
 
 import './StampCreator.scss';
 
 export interface IStampCreatorProps {}
 
-export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps) {
+export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps & IPropertiesEditorProps) {
+  const [selectedShape, setSelectedShape] = React.useState<IShape|null>(null);
+
+  const onPropertiesChanged = (shape: IShape) => {
+    const index = props.canvasData?.shapes.findIndex(s => s.id === shape.id);
+
+    if (!isNaN(index)) {
+      const newData = { ...props.canvasData };
+
+      newData.shapes.splice(index, 1, shape);
+
+      props.onCanvasChanged(newData);
+    }
+  };
+
   return (
     <div className="stamp-creator">
       <DndProvider backend={HTML5Backend}>
         <Stencil />
-        <DroppableCanvas {...props} />
+        <DroppableCanvas {...props} onSelectShape={setSelectedShape} selectedShape={selectedShape} />
+        <PropertiesEditor onPropertiesChanged={onPropertiesChanged} selectedShape={selectedShape} />
       </DndProvider>
     </div>
   )

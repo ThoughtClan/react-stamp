@@ -23,9 +23,15 @@
  */
 
 @import '../../styles/colours';
+@import '../../styles/flex';
 
 .stamp-creator .stencil {
   padding: 0 10px;
   height: 100%;
   border-right: 1px solid $grey-3;
+  background: $grey-5;
+
+  @include use-flex($flex: 1, $direction: column, $align: center, $justify: flex-start) {
+    max-width: 50px;
+  }
 }
