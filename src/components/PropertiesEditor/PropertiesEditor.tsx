@@ -24,6 +24,7 @@
 
 import * as React from 'react';
 import { IShape } from '../../entities/IShape';
+import classNames from 'classnames';
 
 import './PropertiesEditor.scss';
 
@@ -36,9 +37,44 @@ export default function PropertiesEditor({
   selectedShape,
   onPropertiesChanged,
 }: IPropertiesEditorProps) {
-  return (
-    <div className="properties-editor">
+  const renderEditor = () => {
+    return (
+        <React.Fragment>
+          <div className="properties-group">
+            <div className="header">
+              <h4 className="title">Layout</h4>
+            </div>
 
+            <div className="editors">
+              {`X: ${selectedShape?.x}, Y: ${selectedShape?.y}`}
+            </div>
+          </div>
+
+          <div className="properties-group">
+            <div className="header">
+              <h4 className="title">Appearance</h4>
+            </div>
+
+            <div className="editors">
+
+            </div>
+          </div>
+        </React.Fragment>
+    );
+  };
+
+  return (
+    <div
+      className={classNames({
+        'properties-editor': true,
+        'properties-editor--empty': selectedShape === null,
+      })}
+    >
+      {
+        selectedShape === null
+          ? <h4>No shape selected.</h4>
+          : renderEditor()
+      }
     </div>
   )
 }

@@ -35,6 +35,7 @@ import './StampCreator.scss';
 
 export interface IStampCreatorProps {}
 
+// TODO: move canvas and property editor props into separate objects in stamp creator props
 export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps & IPropertiesEditorProps) {
   const [selectedShape, setSelectedShape] = React.useState<IShape|null>(null);
 
