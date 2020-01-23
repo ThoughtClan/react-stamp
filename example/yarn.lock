@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@naoey/react-stamp@link:..":
+"@thoughtclan/react-stamp@link:..":
   version "0.0.0"
   uid ""
 
