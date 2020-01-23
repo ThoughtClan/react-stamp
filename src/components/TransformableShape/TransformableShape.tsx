@@ -56,8 +56,8 @@ export default function TransformableShape({
 
         const newShape: IShape = { ...rest };
 
-        newShape.width = node.width() * scaleX;
-        newShape.height = node.height() * scaleY;
+        newShape.width = Math.round(node.width() * scaleX);
+        newShape.height = Math.round(node.height() * scaleY);
 
         node.scaleX(1);
         node.scaleY(1);

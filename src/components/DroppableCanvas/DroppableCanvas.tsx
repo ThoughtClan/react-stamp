@@ -114,8 +114,8 @@ export default function DroppableCanvas({
 
     if (!targetShape) return;
 
-    targetShape.x = event.target.x();
-    targetShape.y = event.target.y();
+    targetShape.x = Math.round(event.target.x());
+    targetShape.y = Math.round(event.target.y());
 
     setShapes(newShapes);
   }, [shapes]);
