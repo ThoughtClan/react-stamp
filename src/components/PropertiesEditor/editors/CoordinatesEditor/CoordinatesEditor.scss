@@ -22,49 +22,38 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
+@import '../../../../styles/flex';
+@import '../../../../styles/colours';
+@import '../../../../styles/inputs';
 
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
-
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
+.stamp-creator .coordinates-editor {
+  @include use-flex($direction: row) {
     flex-wrap: wrap;
   }
 
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
+  .input-wrapper {
+    height: 30px;
 
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
-
-    padding: 0 15px;
-    width: 100%;
-
-    .header {
-      @include use-flex();
-
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
-      }
+    @include use-flex($direction: row, $justify: center) {
+      flex-wrap: nowrap;
     }
 
-    .editors {
-      width: 100%;
+    .label {
+      text-transform: uppercase;
+      color: $grey-2;
+      font-size: 12px;
+    }
 
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
+    .input {
+      padding: 5px 8px;
+      height: 100%;
+      max-width: 60px;
+      border: 0;
+      border-bottom: 1px solid $grey-3;
+      background: transparent;
+      font-size: 14px;
 
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
-      }
+      @include input-hide-arrows();
     }
   }
 }

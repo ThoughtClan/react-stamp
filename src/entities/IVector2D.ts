@@ -22,49 +22,7 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
-
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
-
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
-  }
-
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
-
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
-
-    padding: 0 15px;
-    width: 100%;
-
-    .header {
-      @include use-flex();
-
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
-      }
-    }
-
-    .editors {
-      width: 100%;
-
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
-
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
-      }
-    }
-  }
+interface IVector2D {
+  x: number|undefined;
+  y: number|undefined;
 }

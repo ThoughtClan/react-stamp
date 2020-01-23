@@ -27,6 +27,8 @@ import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
+import CoordinatesEditor from './editors/CoordinatesEditor';
+
 import './PropertiesEditor.scss';
 
 export interface IPropertiesEditorProps {
@@ -38,6 +40,14 @@ export default function PropertiesEditor({
 }: IPropertiesEditorProps) {
   const selectedShape = React.useContext(SelectedShapeContext);
 
+  const onEditShape = (properties: Array<{ key: string, value: any }>) => {
+    const newShape = { ...selectedShape } as IShape;
+
+    properties.forEach(({ key, value }) => newShape[key] = value);
+
+    onPropertiesChanged(newShape);
+  };
+
   const renderEditor = () => {
     return (
         <React.Fragment>
@@ -46,8 +56,17 @@ export default function PropertiesEditor({
               <h4 className="title">Layout</h4>
             </div>
 
-            <div className="editors">
-              {`X: ${selectedShape?.x}, Y: ${selectedShape?.y}`}
+            <div className="editors--group">
+              <CoordinatesEditor
+                value={{ x: selectedShape?.x, y: selectedShape?.y }}
+                onValueChange={(v) => onEditShape(Object.entries(v).map(([key, value]) => ({ key, value })))}
+              />
+              <CoordinatesEditor
+                value={{ x: selectedShape?.width, y: selectedShape?.height }}
+                onValueChange={(v) => onEditShape([{ key: 'width', value: v.x }, { key: 'height', value: v.y }])}
+                labelX="w"
+                labelY="h"
+              />
             </div>
           </div>
 
@@ -57,7 +76,6 @@ export default function PropertiesEditor({
             </div>
 
             <div className="editors">
-
             </div>
           </div>
         </React.Fragment>

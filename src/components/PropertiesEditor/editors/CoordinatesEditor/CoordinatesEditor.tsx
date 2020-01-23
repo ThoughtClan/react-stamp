@@ -22,49 +22,53 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
+import React from 'react';
 
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
+import './CoordinatesEditor.scss';
 
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
-  }
+interface ICoordinatesEditorProps {
+  labelX?: string;
+  labelY?: string;
+  value: IVector2D|null;
+  onValueChange: (coords: IVector2D) => void;
+}
 
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
-
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
-
-    padding: 0 15px;
-    width: 100%;
-
-    .header {
-      @include use-flex();
-
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
-      }
-    }
-
-    .editors {
-      width: 100%;
-
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
-
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
-      }
+export default function CoordinatesEditor({
+  labelX = 'X',
+  labelY = 'Y',
+  value,
+  onValueChange,
+}: ICoordinatesEditorProps) {
+  const onChange = (axis: 'x'|'y', v: string) => {
+    if (typeof value === 'object') {
+      onValueChange({ ...value, [axis]: parseInt(v, 10) } as IVector2D);
     }
   }
+
+  return (
+    <div className="coordinates-editor">
+      <div className="input-wrapper">
+        <span className="label">
+          {labelX}
+        </span>
+        <input
+          className="input"
+          type="number"
+          value={value?.x}
+          onChange={e => onChange('x', e.target.value)}
+        />
+      </div>
+      <div className="input-wrapper">
+        <span className="label">
+          {labelY}
+        </span>
+        <input
+          className="input"
+          type="number"
+          value={value?.y}
+          onChange={e => onChange('y', e.target.value)}
+        />
+      </div>
+    </div>
+  )
 }

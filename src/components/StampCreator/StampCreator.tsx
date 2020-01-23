@@ -31,8 +31,9 @@ import DroppableCanvas, { IDroppableCanvasProps } from '../DroppableCanvas';
 import PropertiesEditor, { IPropertiesEditorProps } from '../PropertiesEditor';
 import { IShape } from '../../entities/IShape';
 
-import './StampCreator.scss';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
+
+import './StampCreator.scss';
 
 export interface IStampCreatorProps {}
 
