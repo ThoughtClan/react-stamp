@@ -25,18 +25,19 @@
 import * as React from 'react';
 import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
+import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
 import './PropertiesEditor.scss';
 
 export interface IPropertiesEditorProps {
-  selectedShape: IShape|null;
   onPropertiesChanged: (shape: IShape) => void;
 }
 
 export default function PropertiesEditor({
-  selectedShape,
   onPropertiesChanged,
 }: IPropertiesEditorProps) {
+  const selectedShape = React.useContext(SelectedShapeContext);
+
   const renderEditor = () => {
     return (
         <React.Fragment>

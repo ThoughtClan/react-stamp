@@ -32,6 +32,7 @@ import PropertiesEditor, { IPropertiesEditorProps } from '../PropertiesEditor';
 import { IShape } from '../../entities/IShape';
 
 import './StampCreator.scss';
+import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
 export interface IStampCreatorProps {}
 
@@ -55,8 +56,11 @@ export default function StampCreator(props: IStampCreatorProps & IDroppableCanva
     <div className="stamp-creator">
       <DndProvider backend={HTML5Backend}>
         <Stencil />
-        <DroppableCanvas {...props} onSelectShape={setSelectedShape} selectedShape={selectedShape} />
-        <PropertiesEditor onPropertiesChanged={onPropertiesChanged} selectedShape={selectedShape} />
+
+        <SelectedShapeContext.Provider value={selectedShape}>
+          <DroppableCanvas {...props} onSelectShape={setSelectedShape} />
+          <PropertiesEditor onPropertiesChanged={onPropertiesChanged} />
+        </SelectedShapeContext.Provider>
       </DndProvider>
     </div>
   )
