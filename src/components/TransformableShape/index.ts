@@ -22,41 +22,4 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
-import { useDrag } from 'react-dnd';
-
-import './StencilItem.scss';
-
-interface IStencilItemProps {
-  name: string;
-  iconUrl: string;
-  type: string;
-}
-
-export default function StencilItem({
-  name,
-  iconUrl,
-  type,
-}: IStencilItemProps) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
-  return (
-    <div
-      ref={drag}
-      className="stencil-item"
-      title={name}
-      style={{ opacity: isDragging ? 0.6 : 1 }}
-    >
-      <img
-        alt={name}
-        src={iconUrl}
-        className="stencil-item__icon"
-      />
-    </div>
-  )
-}
+export { default } from './TransformableShape';

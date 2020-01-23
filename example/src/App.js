@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { StampCreator } from '@naoey/react-stamp'
+import { StampCreator } from '@thoughtclan/react-stamp'
 
-import '@naoey/react-stamp/dist/index.css';
+import '@thoughtclan/react-stamp/dist/index.css';
 
 export default function App() {
   const [canvas, setCanvas] = React.useState({

@@ -22,41 +22,41 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
-import { useDrag } from 'react-dnd';
+@import '../../styles/flex';
+@import '../../styles/colours';
 
-import './StencilItem.scss';
+.stamp-creator .properties-editor {
+  height: 100%;
+  border-left: 1px solid $grey-3;
+  background: $grey-5;
+  min-width: 250px;
 
-interface IStencilItemProps {
-  name: string;
-  iconUrl: string;
-  type: string;
-}
+  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
+    flex-wrap: wrap;
+  }
 
-export default function StencilItem({
-  name,
-  iconUrl,
-  type,
-}: IStencilItemProps) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
+  &--empty {
+    @include use-flex($flex: 1.8, $align: center, $justify: center);
+  }
 
-  return (
-    <div
-      ref={drag}
-      className="stencil-item"
-      title={name}
-      style={{ opacity: isDragging ? 0.6 : 1 }}
-    >
-      <img
-        alt={name}
-        src={iconUrl}
-        className="stencil-item__icon"
-      />
-    </div>
-  )
+  .properties-group {
+    @include use-flex($direction: column, $align: center, $flex: 0);
+
+    padding: 0 15px;
+
+    .header {
+      @include use-flex();
+
+      height: 20px;
+
+      .title {
+        text-transform: uppercase;
+        color: $grey-2;
+      }
+    }
+
+    .editors {
+      @include use-flex($direction: column, $justify: center);
+    }
+  }
 }

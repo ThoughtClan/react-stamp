@@ -1,13 +1,13 @@
-# @naoey/react-stamp
+# @thoughtclan/react-stamp
 
 > An MS Paint-esque simple image creator for React
 
-[![NPM](https://img.shields.io/npm/v/@naoey/react-stamp.svg)](https://www.npmjs.com/package/@naoey/react-stamp) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@thoughtclan/react-stamp.svg)](https://www.npmjs.com/package/@thoughtclan/react-stamp) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save @naoey/react-stamp
+npm install --save @thoughtclan/react-stamp
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install --save @naoey/react-stamp
 ```tsx
 import * as React from 'react'
 
-import MyComponent from '@naoey/react-stamp'
+import MyComponent from '@thoughtclan/react-stamp'
 
 class Example extends React.Component {
   render () {
@@ -28,4 +28,4 @@ class Example extends React.Component {
 
 ## License
 
-MIT © [naoey](https://github.com/naoey)
+MIT © [ThoughtClan](https://github.com/ThoughtClan)

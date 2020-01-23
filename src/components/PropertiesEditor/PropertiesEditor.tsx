@@ -23,40 +23,58 @@
  */
 
 import * as React from 'react';
-import { useDrag } from 'react-dnd';
+import { IShape } from '../../entities/IShape';
+import classNames from 'classnames';
 
-import './StencilItem.scss';
+import './PropertiesEditor.scss';
 
-interface IStencilItemProps {
-  name: string;
-  iconUrl: string;
-  type: string;
+export interface IPropertiesEditorProps {
+  selectedShape: IShape|null;
+  onPropertiesChanged: (shape: IShape) => void;
 }
 
-export default function StencilItem({
-  name,
-  iconUrl,
-  type,
-}: IStencilItemProps) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
+export default function PropertiesEditor({
+  selectedShape,
+  onPropertiesChanged,
+}: IPropertiesEditorProps) {
+  const renderEditor = () => {
+    return (
+        <React.Fragment>
+          <div className="properties-group">
+            <div className="header">
+              <h4 className="title">Layout</h4>
+            </div>
+
+            <div className="editors">
+              {`X: ${selectedShape?.x}, Y: ${selectedShape?.y}`}
+            </div>
+          </div>
+
+          <div className="properties-group">
+            <div className="header">
+              <h4 className="title">Appearance</h4>
+            </div>
+
+            <div className="editors">
+
+            </div>
+          </div>
+        </React.Fragment>
+    );
+  };
 
   return (
     <div
-      ref={drag}
-      className="stencil-item"
-      title={name}
-      style={{ opacity: isDragging ? 0.6 : 1 }}
+      className={classNames({
+        'properties-editor': true,
+        'properties-editor--empty': selectedShape === null,
+      })}
     >
-      <img
-        alt={name}
-        src={iconUrl}
-        className="stencil-item__icon"
-      />
+      {
+        selectedShape === null
+          ? <h4>No shape selected.</h4>
+          : renderEditor()
+      }
     </div>
   )
 }

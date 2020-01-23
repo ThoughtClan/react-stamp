@@ -22,41 +22,16 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
-import { useDrag } from 'react-dnd';
+@import '../../styles/colours';
+@import '../../styles/flex';
 
-import './StencilItem.scss';
+.stamp-creator .stencil {
+  padding: 0 10px;
+  height: 100%;
+  border-right: 1px solid $grey-3;
+  background: $grey-5;
 
-interface IStencilItemProps {
-  name: string;
-  iconUrl: string;
-  type: string;
-}
-
-export default function StencilItem({
-  name,
-  iconUrl,
-  type,
-}: IStencilItemProps) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
-  return (
-    <div
-      ref={drag}
-      className="stencil-item"
-      title={name}
-      style={{ opacity: isDragging ? 0.6 : 1 }}
-    >
-      <img
-        alt={name}
-        src={iconUrl}
-        className="stencil-item__icon"
-      />
-    </div>
-  )
+  @include use-flex($flex: 1, $direction: column, $align: center, $justify: flex-start) {
+    max-width: 50px;
+  }
 }
