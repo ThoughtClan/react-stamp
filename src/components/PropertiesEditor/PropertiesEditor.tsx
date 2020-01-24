@@ -31,6 +31,7 @@ import { Vector2DEditor, UnitEditor } from './editors';
 import MathHelper from '../../util/MathHelper';
 
 import './PropertiesEditor.scss';
+import PercentEditor from './editors/PercentEditor';
 
 export interface IPropertiesEditorProps {
   onPropertiesChanged: (shape: IShape) => void;
@@ -87,6 +88,10 @@ export default function PropertiesEditor({
           </div>
 
           <div className="editors">
+            <PercentEditor
+              value={selectedShape?.opacity as number ?? 1}
+              onValueChange={v => onEditShape([{ key: 'opacity', value: v }])}
+            />
           </div>
         </div>
       </React.Fragment>
