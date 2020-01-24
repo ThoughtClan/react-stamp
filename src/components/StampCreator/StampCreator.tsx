@@ -41,6 +41,18 @@ export interface IStampCreatorProps {}
 export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps & IPropertiesEditorProps) {
   const [selectedShape, setSelectedShape] = React.useState<IShape|null>(null);
 
+  React.useEffect(() => {
+    // We need to update selected shape whenever its value changes in the shapes data
+    if (!selectedShape) return;
+
+    const shape = props.canvasData.shapes.find(s => s.id === selectedShape.id);
+
+    if (!shape)
+      setSelectedShape(null);
+    else
+      setSelectedShape(shape);
+  }, [props.canvasData]);
+
   const onPropertiesChanged = (shape: IShape) => {
     const index = props.canvasData?.shapes.findIndex(s => s.id === shape.id);
 
@@ -55,14 +67,14 @@ export default function StampCreator(props: IStampCreatorProps & IDroppableCanva
 
   return (
     <div className="stamp-creator">
-      <DndProvider backend={HTML5Backend}>
-        <Stencil />
-
-        <SelectedShapeContext.Provider value={selectedShape}>
+      <SelectedShapeContext.Provider value={selectedShape}>
+        <DndProvider backend={HTML5Backend}>
+          <Stencil />
           <DroppableCanvas {...props} onSelectShape={setSelectedShape} />
-          <PropertiesEditor onPropertiesChanged={onPropertiesChanged} />
-        </SelectedShapeContext.Provider>
-      </DndProvider>
+        </DndProvider>
+
+        <PropertiesEditor onPropertiesChanged={onPropertiesChanged} />
+      </SelectedShapeContext.Provider>
     </div>
   )
 }

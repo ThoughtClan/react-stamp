@@ -49,37 +49,39 @@ export default function PropertiesEditor({
   };
 
   const renderEditor = () => {
+    if (!selectedShape) return null;
+
     return (
-        <React.Fragment>
-          <div className="properties-group">
-            <div className="header">
-              <h4 className="title">Layout</h4>
-            </div>
-
-            <div className="editors--group">
-              <Vector2DEditor
-                value={{ x: selectedShape?.x, y: selectedShape?.y }}
-                onValueChange={(v) => onEditShape(Object.entries(v).map(([key, value]) => ({ key, value })))}
-              />
-              <Vector2DEditor
-                value={{ x: selectedShape?.width, y: selectedShape?.height }}
-                onValueChange={(v) => onEditShape([{ key: 'width', value: v.x }, { key: 'height', value: v.y }])}
-                labelX="w"
-                labelY="h"
-              />
-            </div>
+      <React.Fragment>
+        <div className="properties-group">
+          <div className="header">
+            <h4 className="title">Layout</h4>
           </div>
 
-          <div className="properties-group">
-            <div className="header">
-              <h4 className="title">Appearance</h4>
-            </div>
-
-            <div className="editors">
-            </div>
+          <div className="editors--group">
+            <Vector2DEditor
+              value={{ x: selectedShape?.x, y: selectedShape?.y }}
+              onValueChange={(v) => onEditShape(Object.entries(v).map(([key, value]) => ({ key, value })))}
+            />
+            <Vector2DEditor
+              value={{ x: selectedShape?.width, y: selectedShape?.height }}
+              onValueChange={(v) => onEditShape([{ key: 'width', value: v.x }, { key: 'height', value: v.y }])}
+              labelX="w"
+              labelY="h"
+            />
           </div>
-        </React.Fragment>
-    );
+        </div>
+
+        <div className="properties-group">
+          <div className="header">
+            <h4 className="title">Appearance</h4>
+          </div>
+
+          <div className="editors">
+          </div>
+        </div>
+      </React.Fragment>
+    )
   };
 
   return (
