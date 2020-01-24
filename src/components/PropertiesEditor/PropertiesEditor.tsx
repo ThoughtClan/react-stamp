@@ -89,6 +89,7 @@ export default function PropertiesEditor({
 
           <div className="editors">
             <PercentEditor
+              label="Opacity"
               value={selectedShape?.opacity as number ?? 1}
               onValueChange={v => onEditShape([{ key: 'opacity', value: v }])}
             />

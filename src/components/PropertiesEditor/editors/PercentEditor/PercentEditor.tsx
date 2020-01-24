@@ -32,17 +32,19 @@ import 'rc-slider/assets/index.css';
 import './PercentEditor.scss';
 
 export interface IPercentEditorProps extends IPropertyEditorProps<number|null> {
+  label: string;
   sliderProps?: SliderProps
 }
 
 export default function PercentEditor({
+  label,
   value,
   onValueChange,
   sliderProps = {},
 }: IPercentEditorProps) {
   return (
     <div className="percent-editor">
-      <h6 className="label">Opacity</h6>
+      <h6 className="label">{label}</h6>
 
       <div className="controls">
         <div className="slider-wrapper">
