@@ -25,14 +25,16 @@
 import React from 'react';
 
 import './Vector2DEditor.scss';
+import IPropertyEditorProps from '../IPropertyEditorProps';
 
-interface ICoordinatesEditorProps {
+interface ICoordinatesEditorProps extends IPropertyEditorProps<IVector2D> {
   labelX?: string;
   labelY?: string;
-  value: IVector2D|null;
-  onValueChange: (coords: IVector2D) => void;
 }
 
+/**
+ * An editor for an x, y value pair with customisable labels for the x and y values.
+ */
 export default function CoordinatesEditor({
   labelX = 'X',
   labelY = 'Y',

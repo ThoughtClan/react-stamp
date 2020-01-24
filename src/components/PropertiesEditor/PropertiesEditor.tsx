@@ -62,18 +62,18 @@ export default function PropertiesEditor({
           <div className="editors--group">
             <Vector2DEditor
               value={{ x: selectedShape?.x, y: selectedShape?.y }}
-              onValueChange={(v) => onEditShape(Object.entries(v).map(([key, value]) => ({ key, value })))}
+              onValueChange={v => onEditShape(Object.entries(v ?? {}).map(([key, value]) => ({ key, value })))}
             />
             <Vector2DEditor
               value={{ x: selectedShape?.width, y: selectedShape?.height }}
-              onValueChange={(v) => onEditShape([{ key: 'width', value: v.x }, { key: 'height', value: v.y }])}
+              onValueChange={v => onEditShape([{ key: 'width', value: v?.x ?? 0 }, { key: 'height', value: v?.y ?? 0 }])}
               labelX="w"
               labelY="h"
             />
             <UnitEditor
               label="r"
               value={selectedShape?.rotation ?? 0}
-              onValueChange={(v) => onEditShape([{ key: 'rotation', value: MathHelper.getAbsoluteRotation(v) }])}
+              onValueChange={v => onEditShape([{ key: 'rotation', value: MathHelper.getAbsoluteRotation(v ?? 0) }])}
               unit="°"
               min={0}
               max={360}

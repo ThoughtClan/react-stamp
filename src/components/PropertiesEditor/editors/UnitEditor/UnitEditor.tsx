@@ -23,16 +23,18 @@
  */
 
 import React from 'react';
+import IPropertyEditorProps from '../IPropertyEditorProps';
 
-export interface IUnitEditorProps {
-  value: string|number|null;
+export interface IUnitEditorProps extends IPropertyEditorProps<number|null> {
   unit: string;
   label: string|React.ReactNode;
-  onValueChange: (value: number) => void;
   min?: number;
   max?: number;
 }
 
+/**
+ * An editor for numeric values that are displayed with an associated unit.
+ */
 export default function UnitEditor({
   value,
   unit,

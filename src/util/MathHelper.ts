@@ -30,7 +30,30 @@ const MathHelper = {
       return 360 + val;
 
     return val;
-  }
+  },
+
+  /**
+   * Clamps a given number into a range, returning the lower or upper bounds if the value exceeds either of them.
+   *
+   * @param value The value to clamp
+   * @param min Lower end of clamp range
+   * @param max Upper end of clamp range
+   */
+  clamp(value: number, min: number, max: number) {
+    if (isNaN(value) || isNaN(min) || isNaN(max))
+      throw new Error('The value, min and max parameters must all be numbers');
+
+    if (min >= max)
+      throw new Error('The min value must be less than the max value');
+
+    if (value < min)
+      return min;
+
+    if (value > max)
+      return max;
+
+    return value;
+  },
 };
 
 export default MathHelper;
