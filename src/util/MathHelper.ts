@@ -22,41 +22,15 @@
  * SOFTWARE.
  */
 
-import React from 'react';
+const MathHelper = {
+  getAbsoluteRotation(rotation: number) {
+    const val = rotation % 360;
 
-export interface IUnitEditorProps {
-  value: string|number|null;
-  unit: string;
-  label: string|React.ReactNode;
-  onValueChange: (value: number) => void;
-  min?: number;
-  max?: number;
-}
+    if (val < 0)
+      return 360 + val;
 
-export default function UnitEditor({
-  value,
-  unit,
-  label,
-  onValueChange,
-  min = Infinity,
-  max = Infinity,
-}: IUnitEditorProps) {
-  return (
-    <div className="unit-editor">
-      <div className="input-wrapper">
-        <span className="label">
-          {label}
-        </span>
+    return val;
+  }
+};
 
-        <input
-          type="number"
-          className="input"
-          value={value ?? undefined}
-          onChange={e => onValueChange(parseInt(e.target.value, 10))}
-        />
-
-        {/* TODO: actually display the unit without interfering with number input */}
-      </div>
-    </div>
-  )
-}
+export default MathHelper;

@@ -29,7 +29,7 @@ import uuid from 'uuid';
 import Konva from 'konva';
 import ICanvasData from '../../entities/ICanvasData';
 import { IShape, ShapeType } from '../../entities/IShape';
-import Colours from '../../util/colours';
+import Colours from '../../util/Colours';
 import TransformableShape from '../TransformableShape';
 import { ITransformableShapeProps } from '../TransformableShape/TransformableShape';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';

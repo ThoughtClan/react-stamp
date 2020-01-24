@@ -26,6 +26,7 @@ import React from 'react';
 import ReactKonva from 'react-konva';
 import { IShape } from '../../entities/IShape';
 import Konva from 'konva';
+import MathHelper from '../../util/MathHelper';
 
 export interface ITransformableShapeProps {
   isSelected?: boolean;
@@ -58,7 +59,8 @@ export default function TransformableShape({
 
         newShape.width = Math.round(node.width() * scaleX);
         newShape.height = Math.round(node.height() * scaleY);
-        newShape.rotation = Math.round(node.rotation());
+        // konva allows rotation beyond 360° which is kind of pointless for us so cap it at 0° >= rotation <= 360°
+        newShape.rotation = MathHelper.getAbsoluteRotation(Math.round(node.rotation()));
 
         node.scaleX(1);
         node.scaleY(1);

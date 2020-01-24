@@ -28,6 +28,7 @@ import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
 import { Vector2DEditor, UnitEditor } from './editors';
+import MathHelper from '../../util/MathHelper';
 
 import './PropertiesEditor.scss';
 
@@ -72,8 +73,10 @@ export default function PropertiesEditor({
             <UnitEditor
               label="r"
               value={selectedShape?.rotation ?? 0}
-              onValueChange={(v) => onEditShape([{ key: 'rotation', value: v }])}
+              onValueChange={(v) => onEditShape([{ key: 'rotation', value: MathHelper.getAbsoluteRotation(v) }])}
               unit="°"
+              min={0}
+              max={360}
             />
           </div>
         </div>
