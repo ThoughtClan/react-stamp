@@ -25,42 +25,77 @@
 import * as React from 'react';
 import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
+import SelectedShapeContext from '../../contexts/SelectedShapeContext';
+
+import { Vector2DEditor, UnitEditor } from './editors';
+import MathHelper from '../../util/MathHelper';
 
 import './PropertiesEditor.scss';
+import PercentEditor from './editors/PercentEditor';
 
 export interface IPropertiesEditorProps {
-  selectedShape: IShape|null;
   onPropertiesChanged: (shape: IShape) => void;
 }
 
 export default function PropertiesEditor({
-  selectedShape,
   onPropertiesChanged,
 }: IPropertiesEditorProps) {
+  const selectedShape = React.useContext(SelectedShapeContext);
+
+  const onEditShape = (properties: Array<{ key: string, value: any }>) => {
+    const newShape = { ...selectedShape } as IShape;
+
+    properties.forEach(({ key, value }) => newShape[key] = value);
+
+    onPropertiesChanged(newShape);
+  };
+
   const renderEditor = () => {
+    if (!selectedShape) return null;
+
     return (
-        <React.Fragment>
-          <div className="properties-group">
-            <div className="header">
-              <h4 className="title">Layout</h4>
-            </div>
-
-            <div className="editors">
-              {`X: ${selectedShape?.x}, Y: ${selectedShape?.y}`}
-            </div>
+      <React.Fragment>
+        <div className="properties-group">
+          <div className="header">
+            <h4 className="title">Layout</h4>
           </div>
 
-          <div className="properties-group">
-            <div className="header">
-              <h4 className="title">Appearance</h4>
-            </div>
-
-            <div className="editors">
-
-            </div>
+          <div className="editors--group">
+            <Vector2DEditor
+              value={{ x: selectedShape?.x, y: selectedShape?.y }}
+              onValueChange={v => onEditShape(Object.entries(v ?? {}).map(([key, value]) => ({ key, value })))}
+            />
+            <Vector2DEditor
+              value={{ x: selectedShape?.width, y: selectedShape?.height }}
+              onValueChange={v => onEditShape([{ key: 'width', value: v?.x ?? 0 }, { key: 'height', value: v?.y ?? 0 }])}
+              labelX="w"
+              labelY="h"
+            />
+            <UnitEditor
+              label="r"
+              value={selectedShape?.rotation ?? 0}
+              onValueChange={v => onEditShape([{ key: 'rotation', value: MathHelper.getAbsoluteRotation(v ?? 0) }])}
+              unit="°"
+              min={0}
+              max={360}
+            />
           </div>
-        </React.Fragment>
-    );
+        </div>
+
+        <div className="properties-group">
+          <div className="header">
+            <h4 className="title">Appearance</h4>
+          </div>
+
+          <div className="editors">
+            <PercentEditor
+              value={selectedShape?.opacity as number ?? 1}
+              onValueChange={v => onEditShape([{ key: 'opacity', value: v }])}
+            />
+          </div>
+        </div>
+      </React.Fragment>
+    )
   };
 
   return (

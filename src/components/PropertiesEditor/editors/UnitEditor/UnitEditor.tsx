@@ -22,8 +22,43 @@
  * SOFTWARE.
  */
 
-@import './typography';
+import React from 'react';
+import IPropertyEditorProps from '../IPropertyEditorProps';
 
-html, body, #root {
-  height: 100%;
+export interface IUnitEditorProps extends IPropertyEditorProps<number|null> {
+  unit: string;
+  label: string|React.ReactNode;
+  min?: number;
+  max?: number;
+}
+
+/**
+ * An editor for numeric values that are displayed with an associated unit.
+ */
+export default function UnitEditor({
+  value,
+  unit,
+  label,
+  onValueChange,
+  min = Infinity,
+  max = Infinity,
+}: IUnitEditorProps) {
+  return (
+    <div className="unit-editor">
+      <div className="input-wrapper">
+        <span className="label">
+          {label}
+        </span>
+
+        <input
+          type="number"
+          className="input"
+          value={value ?? undefined}
+          onChange={e => onValueChange(parseInt(e.target.value, 10))}
+        />
+
+        {/* TODO: actually display the unit without interfering with number input */}
+      </div>
+    </div>
+  )
 }

@@ -22,8 +22,30 @@
  * SOFTWARE.
  */
 
-@import './typography';
+@import '../../../../styles/flex';
+@import '../../../../styles/colours';
 
-html, body, #root {
-  height: 100%;
+@import '../shared';
+
+.stamp-creator .properties-editor .percent-editor {
+  width: 100%;
+
+  @include use-flex($align: flex-start, $direction: column);
+
+  .label {
+    color: $grey-3;
+    text-transform: uppercase;
+  }
+
+  .controls {
+    width: 100%;
+
+    @include use-flex($justify: space-between);
+
+    .slider-wrapper {
+      padding: 0 10px;
+
+      @include use-flex($flex: 5);
+    }
+  }
 }

@@ -22,8 +22,10 @@
  * SOFTWARE.
  */
 
-@import './typography';
+@import '../../../../styles/flex';
 
-html, body, #root {
-  height: 100%;
+@import '../shared';
+
+.stamp-creator .properties-editor .unit-editor {
+  @include use-flex();
 }

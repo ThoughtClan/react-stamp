@@ -22,8 +22,4 @@
  * SOFTWARE.
  */
 
-@import './typography';
-
-html, body, #root {
-  height: 100%;
-}
+export { default } from './PercentEditor';

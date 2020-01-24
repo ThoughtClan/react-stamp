@@ -29,9 +29,10 @@ import uuid from 'uuid';
 import Konva from 'konva';
 import ICanvasData from '../../entities/ICanvasData';
 import { IShape, ShapeType } from '../../entities/IShape';
-import Colours from '../../util/colours';
+import Colours from '../../util/Colours';
 import TransformableShape from '../TransformableShape';
 import { ITransformableShapeProps } from '../TransformableShape/TransformableShape';
+import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
 import './DroppableCanvas.scss';
 
@@ -40,7 +41,6 @@ export interface IDroppableCanvasProps {
   onCanvasChanged: (data: ICanvasData) => void;
   onCreateShape?: (type: ShapeType, item: DragObjectWithType, monitor: DropTargetMonitor) => IShape;
   onSelectShape: (shape: IShape|null) => void;
-  selectedShape: IShape|null;
 }
 
 export default function DroppableCanvas({
@@ -48,12 +48,12 @@ export default function DroppableCanvas({
   onCanvasChanged,
   onCreateShape,
   onSelectShape,
-  selectedShape,
 }: IDroppableCanvasProps) {
   /**
    * Initialisation
    */
   const { shapes } = canvasData;
+  const selectedShape = React.useContext(SelectedShapeContext);
 
   const stageRef = React.useRef<Konva.Stage|any>(null);
   const layerRef = React.useRef<Konva.Layer>(null);
@@ -114,8 +114,8 @@ export default function DroppableCanvas({
 
     if (!targetShape) return;
 
-    targetShape.x = event.target.x();
-    targetShape.y = event.target.y();
+    targetShape.x = Math.round(event.target.x());
+    targetShape.y = Math.round(event.target.y());
 
     setShapes(newShapes);
   }, [shapes]);

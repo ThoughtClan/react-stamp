@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-@import './typography';
-
-html, body, #root {
-  height: 100%;
+export default interface IPropertyEditorProps<T> {
+  value: T;
+  onValueChange: (value: T) => void;
+  disabled?: boolean;
 }

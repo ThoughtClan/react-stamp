@@ -22,8 +22,33 @@
  * SOFTWARE.
  */
 
-@import './typography';
+@import '../../../styles/colours';
+@import '../../../styles/inputs';
 
-html, body, #root {
-  height: 100%;
+.stamp-creator .properties-editor {
+  .input-wrapper {
+    height: 30px;
+
+    @include use-flex($direction: row, $justify: center) {
+      flex-wrap: nowrap;
+    }
+
+    .label {
+      text-transform: uppercase;
+      color: $grey-2;
+      font-size: 12px;
+    }
+
+    .input {
+      padding: 5px 8px;
+      height: 100%;
+      max-width: 60px;
+      border: 0;
+      border-bottom: 1px solid $grey-3;
+      background: transparent;
+      font-size: 14px;
+
+      @include input-hide-arrows();
+    }
+  }
 }
