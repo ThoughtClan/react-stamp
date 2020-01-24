@@ -58,6 +58,7 @@ export default function TransformableShape({
 
         newShape.width = Math.round(node.width() * scaleX);
         newShape.height = Math.round(node.height() * scaleY);
+        newShape.rotation = Math.round(node.rotation());
 
         node.scaleX(1);
         node.scaleY(1);

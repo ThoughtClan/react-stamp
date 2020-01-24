@@ -23,3 +23,4 @@
  */
 
 export { default as Vector2DEditor } from './Vector2DEditor';
+export { default as UnitEditor } from './UnitEditor';

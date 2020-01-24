@@ -27,7 +27,7 @@ import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
-import { Vector2DEditor } from './editors';
+import { Vector2DEditor, UnitEditor } from './editors';
 
 import './PropertiesEditor.scss';
 
@@ -68,6 +68,12 @@ export default function PropertiesEditor({
               onValueChange={(v) => onEditShape([{ key: 'width', value: v.x }, { key: 'height', value: v.y }])}
               labelX="w"
               labelY="h"
+            />
+            <UnitEditor
+              label="r"
+              value={selectedShape?.rotation ?? 0}
+              onValueChange={(v) => onEditShape([{ key: 'rotation', value: v }])}
+              unit="°"
             />
           </div>
         </div>
