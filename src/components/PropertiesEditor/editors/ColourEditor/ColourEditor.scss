@@ -22,50 +22,50 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
+@import '../../../../styles/flex';
+@import '../../../../styles/colours';
 
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
-  overflow-y: auto;
+@import '../shared.scss';
 
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
-  }
+.stamp-creator .properties-editor .colour-editor {
+  @include use-flex($direction: column, $justify: flex-start, $align: flex-start);
 
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
+  width: 100%;
+  padding: 15px 0;
 
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
+  .info-strip {
+    @include use-flex($direction: row, $justify: space-between, $align: center);
 
-    padding: 0 15px;
-    width: calc(100% - 30px);
+    width: 100%;
 
-    .header {
+    .indicator {
+      width: 40px;
+      height: 25px;
+      border: 1px solid $grey-1;
+    }
+
+    .label-wrapper {
       @include use-flex();
 
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
-      }
+      padding: 0 10px;
     }
 
-    .editors {
-      width: 100%;
+    .picker-toggle {
+      max-height: 40px;
+      max-width: 40px;
+      background: transparent;
+      border: none;
 
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
-
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
+      &:hover {
+        @extend .picker-toggle;
       }
     }
+  }
+
+  .picker-wrapper {
+    @include use-flex($align: center, $justify: center);
+
+    width: 100%;
+    padding: 15px 0 0;
   }
 }

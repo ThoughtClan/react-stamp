@@ -57,11 +57,7 @@ export default function Stencil() {
   return (
     <div className="stencil">
       {
-        ITEMS.map(i => (
-          <StencilItem
-            {...i}
-          />
-        ))
+        ITEMS.map(i => <StencilItem {...i} key={i.type} />)
       }
     </div>
   );

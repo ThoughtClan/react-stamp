@@ -24,3 +24,4 @@
 
 export { default as Vector2DEditor } from './Vector2DEditor';
 export { default as UnitEditor } from './UnitEditor';
+export { default as ColourEditor } from './ColourEditor';

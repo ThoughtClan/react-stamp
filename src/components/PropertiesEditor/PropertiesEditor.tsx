@@ -27,11 +27,12 @@ import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
-import { Vector2DEditor, UnitEditor } from './editors';
+import { Vector2DEditor, UnitEditor, ColourEditor } from './editors';
 import MathHelper from '../../util/MathHelper';
 
 import './PropertiesEditor.scss';
 import PercentEditor from './editors/PercentEditor';
+import BasicShapePropertiesEditor from './shape-properties/BasicShapePropertiesEditor';
 
 export interface IPropertiesEditorProps {
   onPropertiesChanged: (shape: IShape) => void;
@@ -93,6 +94,16 @@ export default function PropertiesEditor({
               value={selectedShape?.opacity as number ?? 1}
               onValueChange={v => onEditShape([{ key: 'opacity', value: v }])}
             />
+          </div>
+        </div>
+
+        <div className="properties-group">
+          <div className="header">
+            <h4 className="title">Shape</h4>
+          </div>
+
+          <div className="editors">
+            <BasicShapePropertiesEditor onPropertiesChanged={onPropertiesChanged} />
           </div>
         </div>
       </React.Fragment>
