@@ -57,6 +57,8 @@ export default function TextShapePropertiesEditor({
         onValueChange={v => onValueChanged('fontSize', v)}
         label="aA"
         unit="px"
+        min={8}
+        max={88}
       />
     </React.Fragment>
   );

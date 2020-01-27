@@ -23,9 +23,10 @@
  */
 
 import React from 'react';
-import IPropertyEditorProps from '../IPropertyEditorProps';
-
 import { ChromePicker } from 'react-color';
+import classNames from 'classnames';
+
+import IPropertyEditorProps from '../IPropertyEditorProps';
 import Colours from '../../../../util/Colours';
 
 import PickerIcon from '../../../../assets/img/color-picker.png';
@@ -43,10 +44,6 @@ export default function ColourEditor({
 }: IColourEditorProps) {
   const [isShowingPicker, setShowingPicker] = React.useState(false);
 
-  const onChangeComplete = React.useCallback((colour) => {
-    onValueChange(colour.hex);
-  }, []);
-
   const onToggle = () => {
     setShowingPicker(!isShowingPicker);
   };
@@ -61,10 +58,13 @@ export default function ColourEditor({
         </div>
 
         <button
-          className="picker-toggle"
+          className={classNames({
+            'picker-toggle': true,
+            'picker-toggle--active': isShowingPicker,
+          })}
           onClick={onToggle}
         >
-          <img src={PickerIcon} alt="picker_icon" height="100%" width="100%" />
+          <img src={PickerIcon} alt="picker_icon" />
         </button>
       </div>
 
@@ -75,7 +75,7 @@ export default function ColourEditor({
               <ChromePicker
                 disableAlpha
                 color={value ?? Colours.Black}
-                onChangeComplete={onChangeComplete}
+                onChangeComplete={(colour: any) => onValueChange(colour.hex)}
               />
             </div>
           )

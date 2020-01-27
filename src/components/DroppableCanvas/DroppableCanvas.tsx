@@ -159,9 +159,7 @@ export default function DroppableCanvas({
     }
   };
 
-  const onCanvasClick = React.useCallback(() => {
-    onSelectShape(null);
-  }, []);
+  const onCanvasClick = () => onSelectShape(null);
 
   /**
    * Renders

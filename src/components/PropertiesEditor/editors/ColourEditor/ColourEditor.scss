@@ -56,6 +56,11 @@
       background: transparent;
       border: none;
 
+      > img {
+        height: 20px;
+        width: 20px;
+      }
+
       &:hover {
         @extend .picker-toggle;
       }

@@ -26,6 +26,7 @@ import React from 'react';
 import IPropertyEditorProps from '../IPropertyEditorProps';
 
 import './UnitEditor.scss';
+import MathHelper from '../../../../util/MathHelper';
 
 export interface IUnitEditorProps extends IPropertyEditorProps<number|null> {
   unit: string;
@@ -56,7 +57,7 @@ export default function UnitEditor({
           type="number"
           className="input"
           value={value ?? undefined}
-          onChange={e => onValueChange(parseInt(e.target.value, 10))}
+          onChange={e => onValueChange(MathHelper.clamp(parseInt(e.target.value, 10), min, max))}
         />
 
         {/* TODO: actually display the unit without interfering with number input */}
