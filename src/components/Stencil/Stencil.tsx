@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
+import React from 'react';
 import StencilItem from '../StencilItem';
 
 import './Stencil.scss';

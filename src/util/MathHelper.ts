@@ -23,7 +23,17 @@
  */
 
 const MathHelper = {
+  /**
+   * Constrains a given rotation value to represent the angle within the numerical range of 0-360˚.
+   *
+   * E.g., `getAbsoluteRotation(390)` will return `30`.
+   *
+   * @param rotation The value to constrain
+   */
   getAbsoluteRotation(rotation: number) {
+    if (isNaN(rotation))
+      throw new Error('Rotation must be a number');
+
     const val = rotation % 360;
 
     if (val < 0)

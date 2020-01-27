@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
+import React from 'react';
 import ReactKonva from 'react-konva';
 import { useDrop, DragObjectWithType, DropTargetMonitor } from 'react-dnd';
 import uuid from 'uuid';

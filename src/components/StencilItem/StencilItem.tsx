@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
+import React from 'react';
 import { useDrag } from 'react-dnd';
 
 import './StencilItem.scss';

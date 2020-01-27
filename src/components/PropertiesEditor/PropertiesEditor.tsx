@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
+import React from 'react';
 import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
