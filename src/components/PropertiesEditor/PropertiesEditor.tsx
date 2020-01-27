@@ -27,7 +27,7 @@ import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
-import { Vector2DEditor, UnitEditor, ColourEditor } from './editors';
+import { Vector2DEditor, UnitEditor } from './editors';
 import MathHelper from '../../util/MathHelper';
 
 import PercentEditor from './editors/PercentEditor';
@@ -127,5 +127,5 @@ export default function PropertiesEditor({
           : renderEditor()
       }
     </div>
-  )
+  );
 }
