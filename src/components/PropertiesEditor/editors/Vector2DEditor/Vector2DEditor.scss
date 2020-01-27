@@ -27,7 +27,18 @@
 @import '../shared';
 
 .stamp-creator .properties-editor .coordinates-editor {
+  padding: 10px 0;
+
   @include use-flex($direction: row) {
     flex-wrap: wrap;
+
+    .input-wrapper {
+      // override shared style for flex wrapping margin
+      margin-top: 10px;
+    }
+
+    // add negative margin to whole container to offset margin of the items on top of the wrap
+    margin-top: -20px;
   }
+
 }

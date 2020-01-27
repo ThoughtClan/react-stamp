@@ -54,7 +54,11 @@ export default function StampCreator(props: IStampCreatorProps & IDroppableCanva
   }, [props.canvasData]);
 
   const onPropertiesChanged = (shape: IShape) => {
+    console.log('Shape properties changed', shape);
+
     const index = props.canvasData?.shapes.findIndex(s => s.id === shape.id);
+
+    console.log('Shape index is', index);
 
     if (!isNaN(index)) {
       const newData = { ...props.canvasData };

@@ -25,6 +25,8 @@
 import React from 'react';
 import IPropertyEditorProps from '../IPropertyEditorProps';
 
+import './UnitEditor.scss';
+
 export interface IUnitEditorProps extends IPropertyEditorProps<number|null> {
   unit: string;
   label: string|React.ReactNode;
