@@ -33,6 +33,7 @@ import Colours from '../../util/Colours';
 import TransformableShape from '../TransformableShape';
 import { ITransformableShapeProps } from '../TransformableShape/TransformableShape';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
+import { IStampCreatorProps } from '../StampCreator/StampCreator';
 
 import './DroppableCanvas.scss';
 
@@ -48,7 +49,10 @@ export default function DroppableCanvas({
   onCanvasChanged,
   onCreateShape,
   onSelectShape,
-}: IDroppableCanvasProps) {
+  onFileDownload,
+  onFileUpload,
+  onFileRemove,
+}: IDroppableCanvasProps & IStampCreatorProps) {
   /**
    * Initialisation
    */

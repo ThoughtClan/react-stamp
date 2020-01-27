@@ -35,7 +35,33 @@ import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 
 import './StampCreator.scss';
 
-export interface IStampCreatorProps {}
+export interface IStampCreatorProps {
+  /**
+   * Handler for files uploaded to, for instance, image shapes on the canvas. The stamp creator expects a unique numeric or string
+   * identifier to be returned by this handler which will be used to reference the given file in all future instances.
+   *
+   * @param {File} file The file object being uploaded
+   * @param {IShape} shape The shape which is the target recipient of the @see file
+   * @returns {string|number} A unique identifier representing the uploaded file
+   */
+  onFileUpload: (file: File, shape: IShape) => string|number;
+
+  /**
+   * Handler for retrieving files previously handled by @see onFileUpload for use in the canvas.
+   *
+   * @param {string|number} identifier The unique identifier that would have been returned by @see onFileUpload during upload
+   * @returns {File} The file object corresponding to the given indentifier
+   */
+  onFileDownload: (identifier: string|number) => File;
+
+  /**
+   * Handler for clearing files that were previously handled by @see onFileUpload for use in the canvas. Invoked whenever the file's
+   * recipient shape is deleted from the canvas.
+   *
+   * @param {string|number} identifier The unique identifier that would have been returned by @see onFileUpload during upload
+   */
+  onFileRemove: (identifier: string|number) => void;
+}
 
 // TODO: move canvas and property editor props into separate objects in stamp creator props
 export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps & IPropertiesEditorProps) {
@@ -54,11 +80,7 @@ export default function StampCreator(props: IStampCreatorProps & IDroppableCanva
   }, [props.canvasData]);
 
   const onPropertiesChanged = (shape: IShape) => {
-    console.log('Shape properties changed', shape);
-
     const index = props.canvasData?.shapes.findIndex(s => s.id === shape.id);
-
-    console.log('Shape index is', index);
 
     if (!isNaN(index)) {
       const newData = { ...props.canvasData };
