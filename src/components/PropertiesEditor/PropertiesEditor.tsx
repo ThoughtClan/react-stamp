@@ -30,9 +30,11 @@ import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 import { Vector2DEditor, UnitEditor, ColourEditor } from './editors';
 import MathHelper from '../../util/MathHelper';
 
-import './PropertiesEditor.scss';
 import PercentEditor from './editors/PercentEditor';
 import BasicShapePropertiesEditor from './shape-properties/BasicShapePropertiesEditor';
+import TextShapePropertiesEditor from './shape-properties/TextShapePropertiesEditor';
+
+import './PropertiesEditor.scss';
 
 export interface IPropertiesEditorProps {
   onPropertiesChanged: (shape: IShape) => void;
@@ -103,7 +105,9 @@ export default function PropertiesEditor({
           </div>
 
           <div className="editors">
-            <BasicShapePropertiesEditor onPropertiesChanged={onPropertiesChanged} />
+            {/* FIXME: the check for shape type => editors present should probably be done here instead of inside each editor */}
+            <BasicShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
+            <TextShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
           </div>
         </div>
       </React.Fragment>

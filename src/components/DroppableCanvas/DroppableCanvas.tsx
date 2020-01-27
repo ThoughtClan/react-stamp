@@ -67,26 +67,39 @@ export default function DroppableCanvas({
     if (!canvasData.width) onCanvasChanged({ ...canvasData, width: window.innerWidth - 50 });
   }, []);
 
-  const [, drop] = useDrop({
-    accept: [ShapeType.Rect, ShapeType.Circle],
-    drop: (item, monitor) => {
-      const createdShape: IShape = typeof onCreateShape === 'function'
-        ? onCreateShape(ShapeType[item.type], item, monitor)
-        : {
-          id: uuid.v4(),
-          type: item.type as ShapeType,
-          width: 50,
-          height: 50,
-          fill: Colours.Transparent,
-          stroke: Colours.Black,
-          strokeWidth: 2,
-          draggable: true,
-          x: 15,
-          y: 15,
-        };
+  const handleDrop = (item: any, monitor: DropTargetMonitor) => {
+    let createdShape;
 
-      setShapes([...shapes, createdShape]);
-    },
+    if (typeof onCreateShape === 'function') {
+      createdShape = onCreateShape(ShapeType[item.type], item, monitor);
+    } else {
+      createdShape = {
+        id: uuid.v4(),
+        type: item.type as ShapeType,
+        width: 50,
+        height: 50,
+        draggable: true,
+        x: 15,
+        y: 15,
+      } as IShape;
+
+      if (createdShape.type === ShapeType.Text) {
+        createdShape = createdShape as Konva.TextConfig;
+        createdShape.text = 'Text';
+        createdShape.fontSize = 18;
+      } else {
+        createdShape.fill = Colours.Transparent;
+        createdShape.stroke = Colours.Black;
+        createdShape.strokeWidth = 2;
+      }
+    }
+
+    setShapes([...shapes, createdShape as IShape]);
+  };
+
+  const [, drop] = useDrop({
+    accept: Object.values(ShapeType),
+    drop: handleDrop,
   });
 
   React.useEffect(() => {
@@ -156,16 +169,20 @@ export default function DroppableCanvas({
     let s = null;
 
     switch (shape.type) {
-      case 'RECT':
+      case ShapeType.Rect:
         s = ReactKonva.Rect;
         break;
 
-      case 'CIRC':
+      case ShapeType.Circle:
         s = ReactKonva.Circle;
         break;
 
-      case 'TEXT':
+      case ShapeType.Text:
         s = ReactKonva.Text;
+        break;
+
+      case ShapeType.Image:
+        s = ReactKonva.Image;
         break;
 
       default:

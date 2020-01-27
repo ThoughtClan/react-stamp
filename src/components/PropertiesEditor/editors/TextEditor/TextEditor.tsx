@@ -23,40 +23,36 @@
  */
 
 import React from 'react';
-import Konva from 'konva';
-import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
+import IPropertyEditorProps from '../IPropertyEditorProps';
 
-interface IBasicShapePropertiesEditorProps {
-  onEditShape: (properties: Array<{ key: string, value: any }>) => void;
-  shape: IShape;
+import './TextEditor.scss';
+
+export interface ITextEditorProps extends IPropertyEditorProps<string|undefined|null> {
+  label: string;
+  multiline?: boolean;
 }
 
-export default function BasicShapePropertiesEditor({
-  onEditShape,
-  shape,
-}: IBasicShapePropertiesEditorProps) {
-  const s = shape as Konva.ShapeConfig;
-
-  if (!s?.type || ![ShapeType.Rect, ShapeType.Circle, ShapeType.Text].includes(s.type))
-    return null;
-
-  const onValueChanged = (key: string, value: string) => {
-    onEditShape([{ key, value }]);
+export default function TextEditor({
+  value,
+  onValueChange,
+  label,
+  multiline,
+}: ITextEditorProps) {
+  const props = {
+    className: "input",
+    value: value ?? undefined,
+    onChange: (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => onValueChange(e.target.value),
   };
 
   return (
-    <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
-      />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
-      />
-    </React.Fragment>
-  );
+    <div className="text-editor">
+      <h6 className="label">{label}</h6>
+
+      {
+        multiline
+          ? <textarea rows={7} {...props} />
+          : <input {...props} />
+      }
+    </div>
+  )
 }

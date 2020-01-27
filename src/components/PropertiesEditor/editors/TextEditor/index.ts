@@ -22,41 +22,4 @@
  * SOFTWARE.
  */
 
-import React from 'react';
-import Konva from 'konva';
-import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
-
-interface IBasicShapePropertiesEditorProps {
-  onEditShape: (properties: Array<{ key: string, value: any }>) => void;
-  shape: IShape;
-}
-
-export default function BasicShapePropertiesEditor({
-  onEditShape,
-  shape,
-}: IBasicShapePropertiesEditorProps) {
-  const s = shape as Konva.ShapeConfig;
-
-  if (!s?.type || ![ShapeType.Rect, ShapeType.Circle, ShapeType.Text].includes(s.type))
-    return null;
-
-  const onValueChanged = (key: string, value: string) => {
-    onEditShape([{ key, value }]);
-  };
-
-  return (
-    <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
-      />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
-      />
-    </React.Fragment>
-  );
-}
+export { default } from './TextEditor';

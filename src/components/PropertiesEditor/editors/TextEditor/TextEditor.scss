@@ -22,41 +22,32 @@
  * SOFTWARE.
  */
 
-import React from 'react';
-import Konva from 'konva';
-import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
+@import '../../../../styles/colours';
+@import '../../../../styles/flex';
 
-interface IBasicShapePropertiesEditorProps {
-  onEditShape: (properties: Array<{ key: string, value: any }>) => void;
-  shape: IShape;
-}
+ @import '../shared';
 
-export default function BasicShapePropertiesEditor({
-  onEditShape,
-  shape,
-}: IBasicShapePropertiesEditorProps) {
-  const s = shape as Konva.ShapeConfig;
+ .stamp-creator .properties-editor .text-editor {
+  width: 100%;
+  padding: 15px 0;
 
-  if (!s?.type || ![ShapeType.Rect, ShapeType.Circle, ShapeType.Text].includes(s.type))
-    return null;
+  @include use-flex($justify: space-between);
 
-  const onValueChanged = (key: string, value: string) => {
-    onEditShape([{ key, value }]);
-  };
+  .label {
+    @include use-flex($flex: 2);
 
-  return (
-    <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
-      />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
-      />
-    </React.Fragment>
-  );
+    color: $grey-2;
+    text-transform: uppercase;
+    margin-right: 7.5px;
+  }
+
+  .input {
+    @include use-flex($flex: 9);
+
+    margin-left: 7.5px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid $grey-1;
+    font-size: 16px;
+  }
 }

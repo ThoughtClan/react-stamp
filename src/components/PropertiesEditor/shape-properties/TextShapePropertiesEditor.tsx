@@ -25,37 +25,38 @@
 import React from 'react';
 import Konva from 'konva';
 import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
+import { ColourEditor, TextEditor, UnitEditor } from '../editors';
 
-interface IBasicShapePropertiesEditorProps {
+interface ITextShapePropertiesEditorProps {
   onEditShape: (properties: Array<{ key: string, value: any }>) => void;
   shape: IShape;
 }
 
-export default function BasicShapePropertiesEditor({
+export default function TextShapePropertiesEditor({
   onEditShape,
   shape,
-}: IBasicShapePropertiesEditorProps) {
-  const s = shape as Konva.ShapeConfig;
+}: ITextShapePropertiesEditorProps) {
+  const s = shape as Konva.TextConfig;
 
-  if (!s?.type || ![ShapeType.Rect, ShapeType.Circle, ShapeType.Text].includes(s.type))
+  if (!s?.type || ![ShapeType.Text].includes(s.type))
     return null;
 
-  const onValueChanged = (key: string, value: string) => {
+  const onValueChanged = (key: string, value: any) => {
     onEditShape([{ key, value }]);
   };
 
   return (
     <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
+      <TextEditor
+        value={s.text}
+        onValueChange={value => onValueChanged('text', value ?? '')}
+        label="Content"
       />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
+      <UnitEditor
+        value={s.fontSize ?? 18}
+        onValueChange={v => onValueChanged('fontSize', v)}
+        label="aA"
+        unit="px"
       />
     </React.Fragment>
   );
