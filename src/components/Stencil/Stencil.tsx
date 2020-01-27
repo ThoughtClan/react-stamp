@@ -26,20 +26,43 @@ import * as React from 'react';
 import StencilItem from '../StencilItem';
 
 import './Stencil.scss';
+import { IShape, ShapeType } from '../../entities/IShape';
+
+interface IShapeMeta extends Partial<IShape> {
+  name: string;
+  iconUrl: string;
+  type: ShapeType;
+  // TODO: move default properties for all shapes here
+}
+
+const ITEMS: IShapeMeta[] = [{
+  type: ShapeType.Rect,
+  name: 'Rectangle',
+  iconUrl: 'https://cdn4.iconfinder.com/data/icons/line-icons-12/64/software_shape_rectangle-512.png',
+}, {
+  type: ShapeType.Circle,
+  name: 'Circle',
+  iconUrl: 'https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png',
+}, {
+  type: ShapeType.Text,
+  name: 'Text',
+  iconUrl: 'https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png',
+}, {
+  type: ShapeType.Image,
+  name: 'Image',
+  iconUrl: 'https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png',
+}];
 
 export default function Stencil() {
   return (
     <div className="stencil">
-      <StencilItem
-        type="RECT"
-        name="Rectangle"
-        iconUrl="https://cdn4.iconfinder.com/data/icons/line-icons-12/64/software_shape_rectangle-512.png"
-      />
-      <StencilItem
-        type="CIRC"
-        name="Circle"
-        iconUrl="https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png"
-      />
+      {
+        ITEMS.map(i => (
+          <StencilItem
+            {...i}
+          />
+        ))
+      }
     </div>
   );
 }
