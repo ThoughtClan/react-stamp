@@ -33,7 +33,7 @@ export default interface IFileManagerProps {
    * @param {IShape} shape The shape which is the target recipient of the @see file
    * @returns {string|number} A unique identifier representing the uploaded file
    */
-  onFileUpload: (file: File, shape: IShape) => string | number;
+  onFileUpload: (file: File, shape: IShape) => string;
 
   /**
    * Handler for retrieving files previously handled by @see onFileUpload for use in the canvas.

@@ -65,6 +65,8 @@ export default function DroppableCanvas({
   const stageRef = React.useRef<Konva.Stage|any>(null);
   const layerRef = React.useRef<Konva.Layer>(null);
 
+  const downloadedFiles = React.useRef<any>({});
+
   /**
    * Other hooks
    */
@@ -185,12 +187,16 @@ export default function DroppableCanvas({
       const image = new Image();
       image.alt = 'image';
 
-      if (shape.image.startsWith('https://') || shape.image.startsWith('blob:'))
+      if (shape.image.startsWith('https://') || shape.image.startsWith('blob:')) {
         image.src = shape.image;
-      else
-        image.src = typeof onFileDownload === 'function'
-          ? onFileDownload(shape.image)
-          : PLACEHOLDER_IMAGE;
+      } else if (downloadedFiles.current[shape.image]) {
+        image.src = downloadedFiles.current[shape.image];
+      } else if (typeof onFileDownload === 'function') {
+        downloadedFiles.current[shape.image] = onFileDownload(shape.image);
+        image.src = downloadedFiles.current[shape.image];
+      } else {
+        image.src = PLACEHOLDER_IMAGE;
+      }
 
       return image;
     }
