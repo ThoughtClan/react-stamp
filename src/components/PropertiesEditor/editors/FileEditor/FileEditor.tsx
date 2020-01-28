@@ -29,7 +29,7 @@ import { IShape } from '../../../../entities/IShape';
 
 import './FileEditor.scss';
 
-export interface IFileEditorProps extends IPropertyEditorProps<string|null> {
+export interface IFileEditorProps extends IPropertyEditorProps<string|number|null> {
   label: string;
   shape: IShape;
 }
@@ -49,15 +49,19 @@ export default function FileEditor({
     }
 
     const file = e.target.files[0];
-    const url = URL.createObjectURL(file);
+
+    let value: string|number|null;
 
     if (typeof onFileUpload === 'function')
-      onFileUpload(file, shape);
+      value = onFileUpload(file, shape);
+    else
+      value = URL.createObjectURL(file);
+
 
     if (input.current)
       input.current.value = '';
 
-    onValueChange(url);
+    onValueChange(value);
   }
 
   return (
