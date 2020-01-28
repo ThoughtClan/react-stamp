@@ -34,8 +34,12 @@ import TransformableShape from '../TransformableShape';
 import { ITransformableShapeProps } from '../TransformableShape/TransformableShape';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 import { IStampCreatorProps } from '../StampCreator/StampCreator';
+import IFileManagerProps from '../../entities/IFileManagerProps';
 
 import './DroppableCanvas.scss';
+import { ShapeConfig } from 'konva/types/Shape';
+
+const PLACEHOLDER_IMAGE = 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?format=jpg&quality=90&v=1530129081';
 
 export interface IDroppableCanvasProps {
   canvasData: ICanvasData;
@@ -49,10 +53,9 @@ export default function DroppableCanvas({
   onCanvasChanged,
   onCreateShape,
   onSelectShape,
-  onFileDownload,
-  onFileUpload,
   onFileRemove,
-}: IDroppableCanvasProps & IStampCreatorProps) {
+  onFileDownload,
+}: IDroppableCanvasProps & IFileManagerProps) {
   /**
    * Initialisation
    */
@@ -85,12 +88,22 @@ export default function DroppableCanvas({
         draggable: true,
         x: 15,
         y: 15,
-      } as IShape;
+      } as ShapeConfig;
 
       if (createdShape.type === ShapeType.Text) {
         createdShape = createdShape as Konva.TextConfig;
         createdShape.text = 'Text';
         createdShape.fontSize = 18;
+      } else if (createdShape.type === ShapeType.Image) {
+        const image = new Image();
+        image.alt = 'image';
+        image.src = PLACEHOLDER_IMAGE;
+        image.height = 250;
+        image.width = 250;
+
+        createdShape.image = image;
+        createdShape.strokeWidth = 1;
+        createdShape.stroke = Colours.Black;
       } else {
         createdShape.fill = Colours.Transparent;
         createdShape.stroke = Colours.Black;
@@ -137,10 +150,13 @@ export default function DroppableCanvas({
     setShapes(newShapes);
   }, [shapes]);
 
-  const onContextMenu = React.useCallback(({ id }: IShape, event) => {
+  const onContextMenu = React.useCallback(({ id, type, ...rest }: IShape, event) => {
     event.evt.preventDefault();
     setShapes(shapes.filter(s => s.id !== id));
     onSelectShape(null);
+
+    if (type === ShapeType.Image && rest.image && typeof onFileRemove === 'function')
+      onFileRemove(rest.image);
   }, [shapes]);
 
   const onShapeUpdate = (shape: IShape) => {
@@ -160,6 +176,27 @@ export default function DroppableCanvas({
   };
 
   const onCanvasClick = () => onSelectShape(null);
+
+  const getImage = (shape: IShape) => {
+    if (shape.type !== ShapeType.Image || !shape.image)
+      return null;
+
+    if (typeof shape.image === 'string') {
+      const image = new Image();
+      image.alt = 'image';
+
+      if (shape.image.startsWith('https://') || shape.image.startsWith('blob:'))
+        image.src = shape.image;
+      else
+        image.src = typeof onFileDownload === 'function'
+          ? onFileDownload(shape.image)
+          : PLACEHOLDER_IMAGE;
+
+      return image;
+    }
+
+    return null;
+  };
 
   /**
    * Renders
@@ -202,6 +239,7 @@ export default function DroppableCanvas({
         onSelectShape(shape);
       },
       onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => onDragEnd(shape, e),
+      image: getImage(shape) ?? undefined,
     };
 
     return <TransformableShape key={rest.id} {...shape} {...additionalProps} />;
@@ -222,5 +260,5 @@ export default function DroppableCanvas({
         </ReactKonva.Layer>
       </ReactKonva.Stage>
     </div>
-  )
+  );
 }

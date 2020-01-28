@@ -23,40 +23,53 @@
  */
 
 import React from 'react';
-import Konva from 'konva';
-import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
+import IFileManagerProps from '../../../../entities/IFileManagerProps';
+import IPropertyEditorProps from '../IPropertyEditorProps';
+import { IShape } from '../../../../entities/IShape';
 
-interface IBasicShapePropertiesEditorProps {
-  onEditShape: (properties: Array<{ key: string, value: any }>) => void;
+import './FileEditor.scss';
+
+export interface IFileEditorProps extends IPropertyEditorProps<string|null> {
+  label: string;
   shape: IShape;
 }
 
-export default function BasicShapePropertiesEditor({
-  onEditShape,
+export default function FileEditor({
+  label,
   shape,
-}: IBasicShapePropertiesEditorProps) {
-  const s = shape as Konva.ShapeConfig;
+  onValueChange,
+  onFileUpload,
+}: IFileEditorProps & IFileManagerProps) {
+  const input = React.useRef<HTMLInputElement>(null);
 
-  if (!s?.type || !Object.values(ShapeType).includes(s.type))
-    return null;
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      onValueChange(null);
+      return;
+    }
 
-  const onValueChanged = (key: string, value: string) => {
-    onEditShape([{ key, value }]);
-  };
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+
+    if (typeof onFileUpload === 'function')
+      onFileUpload(file, shape);
+
+    if (input.current)
+      input.current.value = '';
+
+    onValueChange(url);
+  }
 
   return (
-    <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
+    <div className="file-editor">
+      <h6 className="label">{label}</h6>
+
+      <input
+        ref={input}
+        type="file"
+        onChange={onChange}
+        className="input"
       />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
-      />
-    </React.Fragment>
-  );
+    </div>
+  )
 }

@@ -25,37 +25,41 @@
 import React from 'react';
 import Konva from 'konva';
 import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
+import { TextEditor, FileEditor } from '../editors';
+import IFileManagerProps from '../../../entities/IFileManagerProps';
 
-interface IBasicShapePropertiesEditorProps {
+export interface IImageShapePropertiesEditor extends IFileManagerProps {
   onEditShape: (properties: Array<{ key: string, value: any }>) => void;
   shape: IShape;
 }
 
-export default function BasicShapePropertiesEditor({
+export default function ImageShapePropertiesEditor({
   onEditShape,
   shape,
-}: IBasicShapePropertiesEditorProps) {
-  const s = shape as Konva.ShapeConfig;
+  ...rest
+}: IImageShapePropertiesEditor) {
+  const s = (shape as unknown) as Konva.ImageConfig;
 
-  if (!s?.type || !Object.values(ShapeType).includes(s.type))
+  if (!s?.type || ![ShapeType.Image].includes(s.type))
     return null;
 
-  const onValueChanged = (key: string, value: string) => {
+  const onValueChanged = (key: string, value: any) => {
     onEditShape([{ key, value }]);
   };
 
   return (
     <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
+      <TextEditor
+        value={s.alt}
+        onValueChange={value => onValueChanged('alt', value ?? 'image')}
+        label="Alt"
       />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
+      <FileEditor
+        {...rest}
+        value={shape.image}
+        onValueChange={value => onValueChanged('image', value)}
+        label="Source"
+        shape={shape}
       />
     </React.Fragment>
   );

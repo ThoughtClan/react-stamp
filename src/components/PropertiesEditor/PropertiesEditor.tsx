@@ -33,15 +33,18 @@ import MathHelper from '../../util/MathHelper';
 import PercentEditor from './editors/PercentEditor';
 import BasicShapePropertiesEditor from './shape-properties/BasicShapePropertiesEditor';
 import TextShapePropertiesEditor from './shape-properties/TextShapePropertiesEditor';
+import ImageShapePropertiesEditor from './shape-properties/ImageShapePropertiesEditor';
+import IFileManagerProps from '../../entities/IFileManagerProps';
 
 import './PropertiesEditor.scss';
 
-export interface IPropertiesEditorProps {
+export interface IPropertiesEditorProps extends IFileManagerProps {
   onPropertiesChanged: (shape: IShape) => void;
 }
 
 export default function PropertiesEditor({
   onPropertiesChanged,
+  ...rest
 }: IPropertiesEditorProps) {
   const selectedShape = React.useContext(SelectedShapeContext);
 
@@ -108,6 +111,7 @@ export default function PropertiesEditor({
             {/* FIXME: the check for shape type => editors present should probably be done here instead of inside each editor */}
             <BasicShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
             <TextShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
+            <ImageShapePropertiesEditor {...rest} shape={selectedShape} onEditShape={onEditShape} />
           </div>
         </div>
       </React.Fragment>
