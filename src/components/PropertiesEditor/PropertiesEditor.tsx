@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
+import React from 'react';
 import { IShape } from '../../entities/IShape';
 import classNames from 'classnames';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
@@ -30,15 +30,21 @@ import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 import { Vector2DEditor, UnitEditor } from './editors';
 import MathHelper from '../../util/MathHelper';
 
-import './PropertiesEditor.scss';
 import PercentEditor from './editors/PercentEditor';
+import BasicShapePropertiesEditor from './shape-properties/BasicShapePropertiesEditor';
+import TextShapePropertiesEditor from './shape-properties/TextShapePropertiesEditor';
+import ImageShapePropertiesEditor from './shape-properties/ImageShapePropertiesEditor';
+import IFileManagerProps from '../../entities/IFileManagerProps';
 
-export interface IPropertiesEditorProps {
+import './PropertiesEditor.scss';
+
+export interface IPropertiesEditorProps extends IFileManagerProps {
   onPropertiesChanged: (shape: IShape) => void;
 }
 
 export default function PropertiesEditor({
   onPropertiesChanged,
+  ...rest
 }: IPropertiesEditorProps) {
   const selectedShape = React.useContext(SelectedShapeContext);
 
@@ -95,6 +101,19 @@ export default function PropertiesEditor({
             />
           </div>
         </div>
+
+        <div className="properties-group">
+          <div className="header">
+            <h4 className="title">Shape</h4>
+          </div>
+
+          <div className="editors">
+            {/* FIXME: the check for shape type => editors present should probably be done here instead of inside each editor */}
+            <BasicShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
+            <TextShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
+            <ImageShapePropertiesEditor {...rest} shape={selectedShape} onEditShape={onEditShape} />
+          </div>
+        </div>
       </React.Fragment>
     )
   };
@@ -112,5 +131,5 @@ export default function PropertiesEditor({
           : renderEditor()
       }
     </div>
-  )
+  );
 }

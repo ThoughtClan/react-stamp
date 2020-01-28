@@ -27,5 +27,5 @@
 @import '../shared';
 
 .stamp-creator .properties-editor .unit-editor {
-  @include use-flex();
+  padding: 15px 0;
 }

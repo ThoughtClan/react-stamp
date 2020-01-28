@@ -22,50 +22,45 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
+import React from 'react';
+import Konva from 'konva';
+import { ShapeType, IShape } from '../../../entities/IShape';
+import { TextEditor, FileEditor } from '../editors';
+import IFileManagerProps from '../../../entities/IFileManagerProps';
 
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
-  overflow-y: auto;
+export interface IImageShapePropertiesEditor extends IFileManagerProps {
+  onEditShape: (properties: Array<{ key: string, value: any }>) => void;
+  shape: IShape;
+}
 
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
-  }
+export default function ImageShapePropertiesEditor({
+  onEditShape,
+  shape,
+  ...rest
+}: IImageShapePropertiesEditor) {
+  const s = (shape as unknown) as Konva.ImageConfig;
 
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
+  if (!s?.type || ![ShapeType.Image].includes(s.type))
+    return null;
 
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
+  const onValueChanged = (key: string, value: any) => {
+    onEditShape([{ key, value }]);
+  };
 
-    padding: 0 15px;
-    width: calc(100% - 30px);
-
-    .header {
-      @include use-flex();
-
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
-      }
-    }
-
-    .editors {
-      width: 100%;
-
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
-
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
-      }
-    }
-  }
+  return (
+    <React.Fragment>
+      <TextEditor
+        value={s.alt}
+        onValueChange={value => onValueChanged('alt', value ?? 'image')}
+        label="Alt"
+      />
+      <FileEditor
+        {...rest}
+        value={shape.image}
+        onValueChange={value => onValueChanged('image', value)}
+        label="Source"
+        shape={shape}
+      />
+    </React.Fragment>
+  );
 }

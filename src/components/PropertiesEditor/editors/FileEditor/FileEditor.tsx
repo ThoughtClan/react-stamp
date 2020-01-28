@@ -23,39 +23,56 @@
  */
 
 import React from 'react';
-import { useDrag } from 'react-dnd';
+import IFileManagerProps from '../../../../entities/IFileManagerProps';
+import IPropertyEditorProps from '../IPropertyEditorProps';
+import { IShape } from '../../../../entities/IShape';
 
-import './StencilItem.scss';
+import './FileEditor.scss';
 
-interface IStencilItemProps {
-  name: string;
-  iconUrl: string;
-  type: string;
+export interface IFileEditorProps extends IPropertyEditorProps<string|number|null> {
+  label: string;
+  shape: IShape;
 }
 
-export default function StencilItem({
-  name,
-  iconUrl,
-  type,
-}: IStencilItemProps) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
+export default function FileEditor({
+  label,
+  shape,
+  onValueChange,
+  onFileUpload,
+}: IFileEditorProps & IFileManagerProps) {
+  const input = React.useRef<HTMLInputElement>(null);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      onValueChange(null);
+      return;
+    }
+
+    const file = e.target.files[0];
+
+    let value: string|number|null;
+
+    if (typeof onFileUpload === 'function')
+      value = onFileUpload(file, shape);
+    else
+      value = URL.createObjectURL(file);
+
+
+    if (input.current)
+      input.current.value = '';
+
+    onValueChange(value);
+  }
 
   return (
-    <div
-      ref={drag}
-      className="stencil-item"
-      title={name}
-      style={{ opacity: isDragging ? 0.6 : 1 }}
-    >
-      <img
-        alt={name}
-        src={iconUrl}
-        className="stencil-item__icon"
+    <div className="file-editor">
+      <h6 className="label">{label}</h6>
+
+      <input
+        ref={input}
+        type="file"
+        onChange={onChange}
+        className="input"
       />
     </div>
   )

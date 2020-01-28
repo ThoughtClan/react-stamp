@@ -22,50 +22,41 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
+import React from 'react';
+import Konva from 'konva';
+import { ShapeType, IShape } from '../../../entities/IShape';
+import { ColourEditor } from '../editors';
 
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
-  overflow-y: auto;
+interface IBasicShapePropertiesEditorProps {
+  onEditShape: (properties: Array<{ key: string, value: any }>) => void;
+  shape: IShape;
+}
 
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
-  }
+export default function BasicShapePropertiesEditor({
+  onEditShape,
+  shape,
+}: IBasicShapePropertiesEditorProps) {
+  const s = shape as Konva.ShapeConfig;
 
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
+  if (!s?.type || !Object.values(ShapeType).includes(s.type))
+    return null;
 
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
+  const onValueChanged = (key: string, value: string) => {
+    onEditShape([{ key, value }]);
+  };
 
-    padding: 0 15px;
-    width: calc(100% - 30px);
-
-    .header {
-      @include use-flex();
-
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
-      }
-    }
-
-    .editors {
-      width: 100%;
-
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
-
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
-      }
-    }
-  }
+  return (
+    <React.Fragment>
+      <ColourEditor
+        value={s.fill}
+        onValueChange={value => onEditShape([{ key: 'fill', value }])}
+        label="Fill"
+      />
+      <ColourEditor
+        value={s.stroke}
+        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
+        label="Border"
+      />
+    </React.Fragment>
+  );
 }

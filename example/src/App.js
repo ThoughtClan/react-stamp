@@ -11,10 +11,29 @@ export default function App() {
     shapes: [],
   });
 
+  const files = React.useRef({});
+
+  const onUploadFile = (file) => {
+    const key = Object.keys(files.current).length.toString();
+
+    files.current[key] = file;
+
+    return key;
+  };
+
+  // can be replaced with any HTTP url in actual use, for ex., upload the image to a CDN when this canvas is saved to a server
+  // and use a static URL to load the image onto the canvas there on out.
+  const onDownloadFile = (key) => files.current[key] instanceof File ? URL.createObjectURL(files.current[key]) : '';
+
+  const onRemoveFile = (key) => delete files.current[key];
+
   return (
     <StampCreator
       onCanvasChanged={setCanvas}
       canvasData={canvas}
+      onFileDownload={onDownloadFile}
+      onFileUpload={onUploadFile}
+      onFileRemove={onRemoveFile}
     />
   )
 }

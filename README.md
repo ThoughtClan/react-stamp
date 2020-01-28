@@ -16,3 +16,5 @@ yarn add @thoughtclan/react-stamp
 ## License
 
 MIT © [ThoughtClan](https://github.com/ThoughtClan)
+
+Assets used include icons made by Freepik from www.flaticon.com.

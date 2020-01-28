@@ -22,50 +22,37 @@
  * SOFTWARE.
  */
 
-@import '../../styles/flex';
-@import '../../styles/colours';
+import React from 'react';
+import IPropertyEditorProps from '../IPropertyEditorProps';
 
-.stamp-creator .properties-editor {
-  height: 100%;
-  border-left: 1px solid $grey-3;
-  background: $grey-5;
-  min-width: 250px;
-  overflow-y: auto;
+import './TextEditor.scss';
 
-  @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
-  }
+export interface ITextEditorProps extends IPropertyEditorProps<string|undefined|null> {
+  label: string;
+  multiline?: boolean;
+}
 
-  &--empty {
-    @include use-flex($flex: 1.8, $align: center, $justify: center);
-  }
+export default function TextEditor({
+  value,
+  onValueChange,
+  label,
+  multiline,
+}: ITextEditorProps) {
+  const props = {
+    className: "input",
+    value: value ?? undefined,
+    onChange: (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => onValueChange(e.target.value),
+  };
 
-  .properties-group {
-    @include use-flex($direction: column, $align: flex-start, $flex: 0);
+  return (
+    <div className="text-editor">
+      <h6 className="label">{label}</h6>
 
-    padding: 0 15px;
-    width: calc(100% - 30px);
-
-    .header {
-      @include use-flex();
-
-      height: 20px;
-
-      .title {
-        text-transform: uppercase;
-        color: $grey-2;
+      {
+        multiline
+          ? <textarea rows={7} {...props} />
+          : <input {...props} />
       }
-    }
-
-    .editors {
-      width: 100%;
-
-      @include use-flex($direction: column, $justify: center, $align: flex-start);
-
-      &--group {
-        @extend .editors;
-        @include use-flex($direction: row, $justify: space-between, $align: center);
-      }
-    }
-  }
+    </div>
+  )
 }

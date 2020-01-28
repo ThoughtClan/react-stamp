@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import * as React from 'react';
+import React from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -32,10 +32,11 @@ import PropertiesEditor, { IPropertiesEditorProps } from '../PropertiesEditor';
 import { IShape } from '../../entities/IShape';
 
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
+import IFileManagerProps from '../../entities/IFileManagerProps';
 
 import './StampCreator.scss';
 
-export interface IStampCreatorProps {}
+export interface IStampCreatorProps extends IFileManagerProps {}
 
 // TODO: move canvas and property editor props into separate objects in stamp creator props
 export default function StampCreator(props: IStampCreatorProps & IDroppableCanvasProps & IPropertiesEditorProps) {
@@ -73,8 +74,13 @@ export default function StampCreator(props: IStampCreatorProps & IDroppableCanva
           <DroppableCanvas {...props} onSelectShape={setSelectedShape} />
         </DndProvider>
 
-        <PropertiesEditor onPropertiesChanged={onPropertiesChanged} />
+        <PropertiesEditor
+          onFileDownload={props.onFileDownload}
+          onFileRemove={props.onFileRemove}
+          onFileUpload={props.onFileUpload}
+          onPropertiesChanged={onPropertiesChanged}
+        />
       </SelectedShapeContext.Provider>
     </div>
-  )
+  );
 }
