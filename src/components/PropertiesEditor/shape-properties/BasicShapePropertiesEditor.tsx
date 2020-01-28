@@ -25,7 +25,7 @@
 import React from 'react';
 import Konva from 'konva';
 import { ShapeType, IShape } from '../../../entities/IShape';
-import { ColourEditor } from '../editors';
+import { ColourEditor, UnitEditor } from '../editors';
 
 interface IBasicShapePropertiesEditorProps {
   onEditShape: (properties: Array<{ key: string, value: any }>) => void;
@@ -46,17 +46,33 @@ export default function BasicShapePropertiesEditor({
   };
 
   return (
-    <React.Fragment>
-      <ColourEditor
-        value={s.fill}
-        onValueChange={value => onEditShape([{ key: 'fill', value }])}
-        label="Fill"
-      />
-      <ColourEditor
-        value={s.stroke}
-        onValueChange={value => onEditShape([{ key: 'stroke', value }])}
-        label="Border"
-      />
-    </React.Fragment>
+    <div className="properties-group">
+      <div className="header">
+        <h4 className="title">Shape</h4>
+      </div>
+
+      <div className="editors">
+        <ColourEditor
+          value={s.fill}
+          onValueChange={value => onEditShape([{ key: 'fill', value }])}
+          label="Fill"
+        />
+        <ColourEditor
+          value={s.stroke}
+          onValueChange={value => onEditShape([{ key: 'stroke', value }])}
+          label="Border"
+        />
+      </div>
+
+      <div className="editors--group">
+        <UnitEditor
+          min={0}
+          value={s.strokeWidth ?? 1}
+          onValueChange={value => onEditShape([{ key: 'strokeWidth', value }])}
+          label="Border"
+          unit="pt"
+        />
+      </div>
+    </div>
   );
 }

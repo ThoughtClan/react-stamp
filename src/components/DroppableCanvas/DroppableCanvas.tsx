@@ -38,6 +38,7 @@ import IFileManagerProps from '../../entities/IFileManagerProps';
 
 import './DroppableCanvas.scss';
 import { ShapeConfig } from 'konva/types/Shape';
+import MathHelper from '../../util/MathHelper';
 
 const PLACEHOLDER_IMAGE = 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?format=jpg&quality=90&v=1530129081';
 
@@ -62,6 +63,7 @@ export default function DroppableCanvas({
   const { shapes } = canvasData;
   const selectedShape = React.useContext(SelectedShapeContext);
 
+  const measurementRef = React.useRef<HTMLDivElement>(null);
   const stageRef = React.useRef<Konva.Stage|any>(null);
   const layerRef = React.useRef<Konva.Layer>(null);
 
@@ -76,6 +78,20 @@ export default function DroppableCanvas({
     if (!canvasData.width) onCanvasChanged({ ...canvasData, width: window.innerWidth - 50 });
   }, []);
 
+  const getRelativeCoordinates = (coords: IVector2D): IVector2D => {
+    // TODO: make this more accurate, probably need to be using some other pair of source coordinates to determine this position
+
+    if (!measurementRef.current)
+      return { x: 15, y: 15 };
+
+    const stageRect = measurementRef.current.getBoundingClientRect();
+
+    return {
+      x: MathHelper.clamp(coords?.x ?? 0 - stageRect.left, 15, canvasData?.width ?? 30 - 15),
+      y: MathHelper.clamp(coords?.y ?? - stageRect.top, 15, canvasData?.height ?? 30 - 15),
+    };
+  };
+
   const handleDrop = (item: any, monitor: DropTargetMonitor) => {
     let createdShape;
 
@@ -88,8 +104,7 @@ export default function DroppableCanvas({
         width: 50,
         height: 50,
         draggable: true,
-        x: 15,
-        y: 15,
+        ...getRelativeCoordinates(monitor.getClientOffset() as IVector2D),
       } as ShapeConfig;
 
       if (createdShape.type === ShapeType.Text) {
@@ -243,7 +258,6 @@ export default function DroppableCanvas({
       isSelected: selectedShape?.id === shape.id,
       onContextMenu: (e: Konva.KonvaEventObject<MouseEvent>) => onContextMenu(shape, e),
       onClick: (e: Konva.KonvaEventObject<MouseEvent>) => {
-        e.evt.stopPropagation();
         onSelectShape(shape);
       },
       onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => onDragEnd(shape, e),
@@ -255,18 +269,20 @@ export default function DroppableCanvas({
 
   return (
     <div className="canvas" ref={drop}>
-      <ReactKonva.Stage
-        ref={stageRef}
-        height={canvasData.height ?? window.innerHeight}
-        width={canvasData.width ?? window.innerWidth - 50}
-        style={{ backgroundColor: Colours.White }}
-      >
-        <ReactKonva.Layer ref={layerRef} _useStrictMode>
-          {
-            canvasData.shapes.map(renderShape)
-          }
-        </ReactKonva.Layer>
-      </ReactKonva.Stage>
+      <div ref={measurementRef}>
+        <ReactKonva.Stage
+          ref={stageRef}
+          height={canvasData.height ?? window.innerHeight}
+          width={canvasData.width ?? window.innerWidth - 50}
+          style={{ backgroundColor: Colours.White }}
+        >
+          <ReactKonva.Layer ref={layerRef} _useStrictMode>
+            {
+              canvasData.shapes.map(renderShape)
+            }
+          </ReactKonva.Layer>
+        </ReactKonva.Stage>
+      </div>
     </div>
   );
 }

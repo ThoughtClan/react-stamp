@@ -24,9 +24,14 @@
 
 import React from 'react';
 import StencilItem from '../StencilItem';
+import { IShape, ShapeType } from '../../entities/IShape';
 
 import './Stencil.scss';
-import { IShape, ShapeType } from '../../entities/IShape';
+
+import IconRectangle from '../../assets/img/rect.png';
+import IconCircle from '../../assets/img/circle.png';
+import IconText from '../../assets/img/quote.png';
+import IconImage from '../../assets/img/image.png';
 
 interface IShapeMeta extends Partial<IShape> {
   name: string;
@@ -38,19 +43,19 @@ interface IShapeMeta extends Partial<IShape> {
 const ITEMS: IShapeMeta[] = [{
   type: ShapeType.Rect,
   name: 'Rectangle',
-  iconUrl: 'https://cdn4.iconfinder.com/data/icons/line-icons-12/64/software_shape_rectangle-512.png',
+  iconUrl: IconRectangle,
 }, {
   type: ShapeType.Circle,
   name: 'Circle',
-  iconUrl: 'https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png',
+  iconUrl: IconCircle,
 }, {
   type: ShapeType.Text,
   name: 'Text',
-  iconUrl: 'https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png',
+  iconUrl: IconText,
 }, {
   type: ShapeType.Image,
   name: 'Image',
-  iconUrl: 'https://cdn2.iconfinder.com/data/icons/interface-elements-i/512/Circle-512.png',
+  iconUrl: IconImage,
 }];
 
 export default function Stencil() {
