@@ -187,6 +187,8 @@ export default function DroppableCanvas({
       const image = new Image();
       image.alt = 'image';
 
+      // TODO: re-draw layer after image is changed; its currently not displaying the new image until next render
+
       if (shape.image.startsWith('https://') || shape.image.startsWith('blob:')) {
         image.src = shape.image;
       } else if (downloadedFiles.current[shape.image]) {
