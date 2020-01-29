@@ -10,7 +10,8 @@ commander
   .requiredOption('-i, --input <input>', 'Canvas JSON string or path to JSON file containing canvas data')
   .option('-s, --skip-build', 'Skip installing packages and building the example app', false)
   .option('-d, --debug', 'Show more logs', false)
-  .option('-b, --browser', 'Show browser (run without headless mode)', false);
+  .option('-b, --browser', 'Show browser (run without headless mode)', false)
+  .option('-n, --no-cleanup', 'Don\'t remove the built example app used by the process', false);
 
 commander.parse(process.argv);
 
@@ -42,6 +43,17 @@ const INDEX_HTML_PATH = path.join(__dirname, './build/index.html');
 var start = process.hrtime();
 
 function prepareReactApp() {
+  const buildCopyPath = path.join(__dirname, 'build');
+
+  // FIXME: probably want to use different options instead of bending the same option for multiple effects
+  if (fs.existsSync(buildCopyPath) && commander.skipBuild) {
+    console.info('Built react app already exists, skipping build and copy');
+    return;
+  }
+
+  if (fs.existsSync(buildCopyPath))
+    fs.rmdirSync(buildCopyPath);
+
   console.info('Preparing example app for rendering the canvas...');
 
   // store the cwd to restore it after prepearing the example app
@@ -78,6 +90,11 @@ function prepareReactApp() {
 }
 
 function cleanup() {
+  if (commander.noCleanup) {
+    console.info('Skipping cleanup');
+    return;
+  }
+
   console.info('Cleaning up...');
   fs.removeSync(path.join(__dirname, 'build'));
 }
