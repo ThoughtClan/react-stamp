@@ -1,7 +1,7 @@
 {
   "name": "@thoughtclan/react-stamp",
   "version": "1.0.0",
-  "description": "An MS Paint-esque simple image creator for React",
+  "description": "A simple image builder for React",
   "author": "ThoughtClan",
   "license": "MIT",
   "repository": "ThoughtClan/react-stamp",
