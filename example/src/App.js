@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { StampCreator } from '@thoughtclan/react-stamp'
+import { StampCreator, StampViewer } from '@thoughtclan/react-stamp'
 
 import '@thoughtclan/react-stamp/dist/index.css';
 
@@ -12,6 +12,13 @@ export default function App() {
   });
 
   const files = React.useRef({});
+
+  React.useEffect(() => {
+    if (window.__puppeteer) {
+      setCanvas(window.__puppeteer);
+      window.__screenGrabReady = true;
+    }
+  }, []);
 
   const onUploadFile = (file) => {
     const key = Object.keys(files.current).length.toString();
@@ -27,13 +34,13 @@ export default function App() {
 
   const onRemoveFile = (key) => delete files.current[key];
 
-  return (
-    <StampCreator
-      onCanvasChanged={setCanvas}
-      canvasData={canvas}
-      onFileDownload={onDownloadFile}
-      onFileUpload={onUploadFile}
-      onFileRemove={onRemoveFile}
-    />
-  )
+  const props = {
+    canvasData: canvas,
+    onFileDownload: onDownloadFile,
+    onFileUpload: onUploadFile,
+    onFileRemove: onRemoveFile,
+  };
+
+  // hijack the example app in the server-side image generator also
+  return window.__puppeteer ? <StampViewer {...props} /> : <StampCreator {...props} onCanvasChanged={setCanvas} />;
 }
