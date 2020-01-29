@@ -48,19 +48,25 @@ export default function ImageShapePropertiesEditor({
   };
 
   return (
-    <React.Fragment>
-      <TextEditor
-        value={s.alt}
-        onValueChange={value => onValueChanged('alt', value ?? 'image')}
-        label="Alt"
-      />
-      <FileEditor
-        {...rest}
-        value={shape.image}
-        onValueChange={value => onValueChanged('image', value)}
-        label="Source"
-        shape={shape}
-      />
-    </React.Fragment>
+    <div className="properties-group">
+      <div className="header">
+        <h4 className="title">Image</h4>
+      </div>
+
+      <div className="editors">
+        <TextEditor
+          value={s.alt}
+          onValueChange={value => onValueChanged('alt', value ?? 'image')}
+          label="Alt"
+        />
+        <FileEditor
+          {...rest}
+          value={shape.image}
+          onValueChange={value => onValueChanged('image', value)}
+          label="Source"
+          shape={shape}
+        />
+      </div>
+    </div>
   );
 }

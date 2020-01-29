@@ -102,18 +102,10 @@ export default function PropertiesEditor({
           </div>
         </div>
 
-        <div className="properties-group">
-          <div className="header">
-            <h4 className="title">Shape</h4>
-          </div>
-
-          <div className="editors">
-            {/* FIXME: the check for shape type => editors present should probably be done here instead of inside each editor */}
-            <BasicShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
-            <TextShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
-            <ImageShapePropertiesEditor {...rest} shape={selectedShape} onEditShape={onEditShape} />
-          </div>
-        </div>
+        {/* FIXME: the check for shape type => editors present should probably be done here instead of inside each editor */}
+        <BasicShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
+        <TextShapePropertiesEditor shape={selectedShape} onEditShape={onEditShape} />
+        <ImageShapePropertiesEditor {...rest} shape={selectedShape} onEditShape={onEditShape} />
       </React.Fragment>
     )
   };

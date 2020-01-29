@@ -57,7 +57,7 @@ export default function UnitEditor({
           type="number"
           className="input"
           value={value ?? undefined}
-          onChange={e => onValueChange(MathHelper.clamp(parseInt(e.target.value, 10), min, max))}
+          onChange={e => onValueChange(MathHelper.clamp(parseInt(e.target.value, 10) || min, min, max))}
         />
 
         {/* TODO: actually display the unit without interfering with number input */}

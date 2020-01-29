@@ -46,20 +46,26 @@ export default function TextShapePropertiesEditor({
   };
 
   return (
-    <React.Fragment>
-      <TextEditor
-        value={s.text}
-        onValueChange={value => onValueChanged('text', value ?? '')}
-        label="Content"
-      />
-      <UnitEditor
-        value={s.fontSize ?? 18}
-        onValueChange={v => onValueChanged('fontSize', v)}
-        label="aA"
-        unit="px"
-        min={8}
-        max={88}
-      />
-    </React.Fragment>
+    <div className="properties-group">
+      <div className="header">
+        <h4 className="title">Text</h4>
+      </div>
+
+      <div className="editors">
+        <TextEditor
+          value={s.text}
+          onValueChange={value => onValueChanged('text', value ?? '')}
+          label="Content"
+        />
+        <UnitEditor
+          value={s.fontSize ?? 18}
+          onValueChange={v => onValueChanged('fontSize', v)}
+          label="aA"
+          unit="px"
+          min={8}
+          max={88}
+        />
+      </div>
+    </div>
   );
 }
