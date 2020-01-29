@@ -33,7 +33,6 @@ import Colours from '../../util/Colours';
 import TransformableShape from '../TransformableShape';
 import { ITransformableShapeProps } from '../TransformableShape/TransformableShape';
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
-import { IStampCreatorProps } from '../StampCreator/StampCreator';
 import IFileManagerProps from '../../entities/IFileManagerProps';
 
 import './DroppableCanvas.scss';

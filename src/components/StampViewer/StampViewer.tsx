@@ -22,7 +22,25 @@
  * SOFTWARE.
  */
 
-import './styles/main.scss';
+import React from 'react';
+import IFileManagerProps from '../../entities/IFileManagerProps';
+import { IDroppableCanvasProps } from '../DroppableCanvas';
+import Canvas from '../Canvas/Canvas';
 
-export { default as StampCreator } from './components/StampCreator';
-export { default as StampViewer } from './components/StampViewer';
+import './StampViewer.scss';
+import ICanvasData from '../../entities/ICanvasData';
+
+export interface IStampViewerProps extends IFileManagerProps {
+  canvasData: ICanvasData;
+}
+
+export default function StampViewer({
+  canvasData,
+  onFileDownload,
+}: IStampViewerProps) {
+  return (
+    <div className="stamp-viewer">
+      <Canvas canvasData={canvasData} onFileDownload={onFileDownload} />
+    </div>
+  );
+}
