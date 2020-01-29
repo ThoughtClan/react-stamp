@@ -111,7 +111,7 @@ async function createImage() {
   await page.waitForFunction(() => window.__puppeteer && window.__screenGrabReady);
 
   const rect = await page.evaluate(selector => {
-    console.info('Finding .canvas in document');
+    console.info('Finding .konvajs-content in document');
 
     const element = document.querySelector(selector);
 
@@ -134,7 +134,7 @@ async function createImage() {
       height,
       id: element.id
     };
-  }, '.canvas');
+  }, '.konvajs-content');
 
 
   if (rect) {
