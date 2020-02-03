@@ -47,7 +47,7 @@ function isBuildFresh() {
   if (!fs.existsSync(buildPath))
     return false;
 
-  const stat = fs.statSync(buildDir);
+  const stat = fs.statSync(buildPath);
 
   if (stat.mtimeMs > START_TIME)
     return true;
@@ -79,7 +79,8 @@ app.post('/create-image', function (req, res) {
   const args = [
     `-o ${FILE_PATH}`,
     `-i "${JSON.stringify(json).replace(/\"/g, "\\\"")}"`,
-    `--no-cleanup`
+    '--no-cleanup',
+    '--no-sandbox'
   ];
 
   if (options.debug)
@@ -108,4 +109,8 @@ app.post('/create-image', function (req, res) {
 
 app.listen(options.port, () => {
   console.info(`Express server listening on port ${options.port}`);
+});
+
+process.on('SIGINT', () => {
+  process.exit(0);
 });

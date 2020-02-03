@@ -35,6 +35,7 @@ commander
   .option('-s, --skip-build', 'Skip installing packages and building the example app', false)
   .option('-d, --debug', 'Show more logs', false)
   .option('-b, --browser', 'Show browser (run without headless mode)', false)
+  .option('-N, --no-sandbox', 'Skip Chromium sandbox', false)
   .option('-n, --no-cleanup', 'Don\'t remove the built example app used by the process', false);
 
 commander.parse(process.argv);
@@ -76,7 +77,7 @@ function prepareReactApp() {
   }
 
   if (fs.existsSync(buildCopyPath))
-    fs.rmdirSync(buildCopyPath);
+    fs.removeSync(buildCopyPath);
 
   console.info('Preparing example app for rendering the canvas...');
 
@@ -114,7 +115,7 @@ function prepareReactApp() {
 }
 
 function cleanup() {
-  if (commander.noCleanup) {
+  if (commander.cleanup === false) {
     console.info('Skipping cleanup');
     return;
   }
@@ -132,7 +133,15 @@ function parseJson(str) {
 }
 
 async function createImage() {
-  const browser = await puppeteer.launch({ headless: !commander.browser });
+  const puppeteerArgs = [];
+
+  if (commander.sandbox === false)
+    puppeteerArgs.push('--no-sandbox', '--disable-setuid-sandbox');
+
+  if (commander.debug)
+    console.info('Running puppeteer with args', puppeteerArgs);
+
+  const browser = await puppeteer.launch({ headless: !commander.browser, args: puppeteerArgs });
   const page = await browser.newPage();
 
   page.setViewport({
