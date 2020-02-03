@@ -23,8 +23,8 @@
  */
 
 .stencil-item {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 32px;
+  max-height: 32px;
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -33,7 +33,7 @@
   margin: 10px 0;
 
   &__icon {
-    height: 45px;
-    width: 45px;
+    height: 30px;
+    width: 30px;
   }
 }

@@ -111,13 +111,7 @@ export default function DroppableCanvas({
         createdShape.text = 'Text';
         createdShape.fontSize = 18;
       } else if (createdShape.type === ShapeType.Image) {
-        const image = new Image();
-        image.alt = 'image';
-        image.src = PLACEHOLDER_IMAGE;
-        image.height = 250;
-        image.width = 250;
-
-        createdShape.image = image;
+        createdShape.image = PLACEHOLDER_IMAGE;
         createdShape.strokeWidth = 1;
         createdShape.stroke = Colours.Black;
       } else {
@@ -181,7 +175,7 @@ export default function DroppableCanvas({
     const idx = newShapes.findIndex(s => s.id === shape.id);
 
     if (idx > -1) {
-      newShapes.splice(idx, 1, { ...newShapes[idx], ...shape });
+      newShapes.splice(idx, 1, { ...newShapes[idx], ...shape, image: newShapes[idx].image });
     }
 
     setShapes(newShapes);

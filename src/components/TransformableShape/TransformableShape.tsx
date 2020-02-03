@@ -38,6 +38,9 @@ export default function TransformableShape({
   isSelected,
   onUpdate,
   Shape,
+  onContextMenu,
+  onClick,
+  onDragEnd,
   ...rest
 }: ITransformableShapeProps & IShape) {
   const shapeRef = React.useRef<Konva.Shape>(null);
@@ -46,6 +49,9 @@ export default function TransformableShape({
   const shape = !Shape ? null : (
     <Shape
       {...rest}
+      onClick={onClick}
+      onDragEnd={onDragEnd}
+      onContextMenu={onContextMenu}
       ref={shapeRef}
       onTransformEnd={() => {
         const node = shapeRef.current;
