@@ -91,6 +91,13 @@ export default function DroppableCanvas({
     };
   };
 
+  const getClampedRelativeCoords = (coords: IVector2D): IVector2D => {
+    return {
+      x: MathHelper.clamp(coords.x ?? 0, 15, (canvasData?.width ?? 0) - 50),
+      y: MathHelper.clamp(coords.y ?? 0, 15, (canvasData?.height ?? 0) - 50),
+    };
+  };
+
   const handleDrop = (item: any, monitor: DropTargetMonitor) => {
     let createdShape;
 
@@ -103,7 +110,7 @@ export default function DroppableCanvas({
         width: 50,
         height: 50,
         draggable: true,
-        ...getRelativeCoordinates(monitor.getClientOffset() as IVector2D),
+        ...getClampedRelativeCoords(monitor.getClientOffset() as IVector2D),
       } as ShapeConfig;
 
       if (createdShape.type === ShapeType.Text) {
