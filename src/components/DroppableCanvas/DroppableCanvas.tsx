@@ -35,11 +35,10 @@ import { ITransformableShapeProps } from '../TransformableShape/TransformableSha
 import SelectedShapeContext from '../../contexts/SelectedShapeContext';
 import IFileManagerProps from '../../entities/IFileManagerProps';
 
-import './DroppableCanvas.scss';
 import { ShapeConfig } from 'konva/types/Shape';
 import MathHelper from '../../util/MathHelper';
 
-const PLACEHOLDER_IMAGE = 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?format=jpg&quality=90&v=1530129081';
+import './DroppableCanvas.scss';
 
 export interface IDroppableCanvasProps {
   canvasData: ICanvasData;
@@ -118,7 +117,7 @@ export default function DroppableCanvas({
         createdShape.text = 'Text';
         createdShape.fontSize = 18;
       } else if (createdShape.type === ShapeType.Image) {
-        createdShape.image = PLACEHOLDER_IMAGE;
+        createdShape.image = '';
         createdShape.strokeWidth = 1;
         createdShape.stroke = Colours.Black;
       } else {
@@ -211,8 +210,6 @@ export default function DroppableCanvas({
       } else if (typeof onFileDownload === 'function') {
         downloadedFiles.current[shape.image] = onFileDownload(shape.image);
         image.src = downloadedFiles.current[shape.image];
-      } else {
-        image.src = PLACEHOLDER_IMAGE;
       }
 
       return image;
