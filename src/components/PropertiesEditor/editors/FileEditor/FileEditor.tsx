@@ -32,13 +32,17 @@ import './FileEditor.scss';
 export interface IFileEditorProps extends IPropertyEditorProps<string|number|null> {
   label: string;
   shape: IShape;
+  acceptedTypes?: string[];
 }
 
 export default function FileEditor({
   label,
   shape,
+  value,
   onValueChange,
   onFileUpload,
+  onFileRemove,
+  acceptedTypes = [],
 }: IFileEditorProps & IFileManagerProps) {
   const input = React.useRef<HTMLInputElement>(null);
 
@@ -50,18 +54,31 @@ export default function FileEditor({
 
     const file = e.target.files[0];
 
-    let value: string|number|null;
+    if (!acceptedTypes.includes(file.type)) {
+      window.alert('Incompatible file type');
+
+      if (input.current)
+        input.current.value = '';
+
+      return;
+    }
+
+    let newValue: string|number|null;
 
     if (typeof onFileUpload === 'function')
-      value = onFileUpload(file, shape);
+      newValue = onFileUpload(file, shape);
     else
-      value = URL.createObjectURL(file);
+      newValue = URL.createObjectURL(file);
 
 
     if (input.current)
       input.current.value = '';
 
-    onValueChange(value);
+    if (value && typeof onFileRemove === 'function') {
+      onFileRemove(value);
+    }
+
+    onValueChange(newValue);
   }
 
   return (

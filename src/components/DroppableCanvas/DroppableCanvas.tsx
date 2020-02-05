@@ -264,22 +264,29 @@ export default function DroppableCanvas({
     return <TransformableShape key={rest.id} {...shape} {...additionalProps} />;
   };
 
+  const canvasHeight = canvasData.height ?? window.innerHeight;
+  const canvasWidth = canvasData.width ?? window.innerWidth;
+
   return (
     <div className="canvas" ref={drop}>
-      <div ref={measurementRef}>
-        <ReactKonva.Stage
-          ref={stageRef}
-          height={canvasData.height ?? window.innerHeight}
-          width={canvasData.width ?? window.innerWidth - 50}
-          style={{ backgroundColor: Colours.White }}
-        >
-          <ReactKonva.Layer ref={layerRef} _useStrictMode>
-            {
-              canvasData.shapes.map(renderShape)
-            }
-          </ReactKonva.Layer>
-        </ReactKonva.Stage>
+      {/* div used as a buffer around the canvas area to make scrolling more apparent when any end of the canvas is reached */}
+      {/* TODO: fix the aforementioned scroll */}
+      <div style={{ height: canvasHeight + 50, width: canvasHeight + 50 }}>
+        <div ref={measurementRef}>
+          <ReactKonva.Stage
+            ref={stageRef}
+            height={canvasHeight}
+            width={canvasWidth}
+            style={{ backgroundColor: Colours.White }}
+          >
+            <ReactKonva.Layer ref={layerRef} _useStrictMode>
+              {
+                canvasData.shapes.map(renderShape)
+              }
+            </ReactKonva.Layer>
+          </ReactKonva.Stage>
+        </div>
       </div>
-    </div>
+      </div>
   );
 }

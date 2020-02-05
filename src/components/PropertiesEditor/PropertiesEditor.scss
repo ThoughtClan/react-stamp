@@ -33,7 +33,7 @@
   overflow-y: auto;
 
   @include use-flex($flex: 1.8, $align: flex-start, $justify: flex-start, $direction: column) {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   &--empty {

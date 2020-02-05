@@ -65,6 +65,7 @@ export default function ImageShapePropertiesEditor({
           onValueChange={value => onValueChanged('image', value)}
           label="Source"
           shape={shape}
+          acceptedTypes={['image/png', 'image/jpg', 'image/jpeg']}
         />
       </div>
     </div>
