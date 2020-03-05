@@ -160,7 +160,7 @@ export default function DroppableCanvas({
 
     if (!targetShape) return;
     targetShape.x = MathHelper.clamp(event.target.x(), 0, (canvasData.width || 0) - 53);
-    targetShape.y = MathHelper.clamp(event.target.y(), 0, (canvasData?.height ?? 0) - 70);
+    targetShape.y = MathHelper.clamp(event.target.y(), 0, (canvasData.height || 0) - 70);
 
     setShapes(newShapes);
   }, [shapes]);
