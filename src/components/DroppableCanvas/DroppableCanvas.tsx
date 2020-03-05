@@ -159,9 +159,8 @@ export default function DroppableCanvas({
     const targetShape = shapes.find(s => s.id === id);
 
     if (!targetShape) return;
-
-    targetShape.x = Math.round(event.target.x());
-    targetShape.y = Math.round(event.target.y());
+    targetShape.x = MathHelper.clamp(event.target.x(), 0, (canvasData.width || 0) - 53);
+    targetShape.y = MathHelper.clamp(event.target.y(), 0, (canvasData?.height ?? 0) - 70);
 
     setShapes(newShapes);
   }, [shapes]);
