@@ -13,7 +13,7 @@
     "express": "^4.17.1",
     "express-request-id": "^1.4.1",
     "fs-extra": "^8.1.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "konva": "^4.1.2",
     "puppeteer": "^2.1.0",
     "react": "^16.12.0",
