@@ -36,9 +36,13 @@ commander
   .option('-d, --debug', 'Show more logs', false)
   .option('-b, --browser', 'Show browser (run without headless mode)', false)
   .option('-N, --no-sandbox', 'Skip Chromium sandbox', false)
+  .option('-S, --scale-factor <scale>', 'Set the device scale factor for the browser', 2)
   .option('-n, --no-cleanup', 'Don\'t remove the built example app used by the process', false);
 
 commander.parse(process.argv);
+
+if (commander.scaleFactor !== undefined && isNaN(parseFloat(commander.scaleFactor)))
+  throw new Error(`Scale factor must be a number! Received ${commander.scaleFactor}`);
 
 if (fs.existsSync(commander.output)) {
   console.error(`Output file ${commander.output} already exists`);
@@ -144,10 +148,12 @@ async function createImage() {
   const browser = await puppeteer.launch({ headless: !commander.browser, args: puppeteerArgs });
   const page = await browser.newPage();
 
+  console.info(`Using device scale factor ${commander.scaleFactor}`);
+
   page.setViewport({
     width: 1920,
     height: 1200,
-    deviceScaleFactor: 2
+    deviceScaleFactor: parseFloat(commander.scaleFactor),
   });
 
   page.evaluateOnNewDocument((j) => {
