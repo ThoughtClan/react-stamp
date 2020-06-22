@@ -83,6 +83,11 @@ app.post('/create-image', function (req, res) {
     '--no-sandbox'
   ];
 
+  const scaleFactor = req.headers['x-device-scale-factor'];
+
+  if (scaleFactor && !isNaN(parseFloat(scaleFactor)))
+    args.push(`--scale-factor ${scaleFactor}`);
+
   if (options.debug)
     args.push('--debug');
 
