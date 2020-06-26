@@ -15,8 +15,8 @@ export default function App() {
 
   React.useEffect(() => {
     if (window.__puppeteer) {
+      window.__screenGrabReady = false;
       setCanvas(window.__puppeteer);
-      window.__screenGrabReady = true;
     }
   }, []);
 
@@ -26,6 +26,13 @@ export default function App() {
     files.current[key] = file;
 
     return key;
+  };
+
+  const onLoaded = () => {
+    console.info('Canvas fully loaded!');
+
+    if (window.__puppeteer)
+      window.__screenGrabReady = true;
   };
 
   // can be replaced with any HTTP url in actual use, for ex., upload the image to a CDN when this canvas is saved to a server
@@ -39,6 +46,7 @@ export default function App() {
     onFileDownload: onDownloadFile,
     onFileUpload: onUploadFile,
     onFileRemove: onRemoveFile,
+    onLoadEnd: onLoaded,
   };
 
   // hijack the example app in the server-side image generator also
