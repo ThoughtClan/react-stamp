@@ -110,7 +110,7 @@ export default function Canvas({
       <ReactKonva.Stage
         height={canvasData.height ?? window.innerHeight}
         width={canvasData.width ?? window.innerWidth - 50}
-        style={{ backgroundColor: Colours.White }}
+        style={{ backgroundColor: Colours.Transparent }}
       >
         <ReactKonva.Layer _useStrictMode>
           {

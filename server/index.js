@@ -198,6 +198,7 @@ async function createImage() {
 
     await page.screenshot({
       path: commander.output,
+      omitBackground: true,
       clip: {
         x: rect.left,
         y: rect.top,
