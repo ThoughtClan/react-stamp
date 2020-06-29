@@ -270,7 +270,7 @@ export default function DroppableCanvas({
     <div className="canvas" ref={drop}>
       {/* div used as a buffer around the canvas area to make scrolling more apparent when any end of the canvas is reached */}
       {/* TODO: fix the aforementioned scroll */}
-      <div style={{ height: canvasHeight, width: canvasHeight }}>
+      <div style={{ height: canvasHeight, width: canvasWidth }}>
         <div ref={measurementRef}>
           <ReactKonva.Stage
             ref={stageRef}
