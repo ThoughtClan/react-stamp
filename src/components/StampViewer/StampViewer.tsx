@@ -24,23 +24,14 @@
 
 import React from 'react';
 import IFileManagerProps from '../../entities/IFileManagerProps';
-import { IDroppableCanvasProps } from '../DroppableCanvas';
-import Canvas from '../Canvas/Canvas';
+import Canvas, { ICanvasProps } from '../Canvas/Canvas';
 
 import './StampViewer.scss';
-import ICanvasData from '../../entities/ICanvasData';
 
-export interface IStampViewerProps extends IFileManagerProps {
-  canvasData: ICanvasData;
-}
-
-export default function StampViewer({
-  canvasData,
-  onFileDownload,
-}: IStampViewerProps) {
+export default function StampViewer(props: IFileManagerProps & ICanvasProps) {
   return (
     <div className="stamp-viewer">
-      <Canvas canvasData={canvasData} onFileDownload={onFileDownload} />
+      <Canvas {...props} />
     </div>
   );
 }

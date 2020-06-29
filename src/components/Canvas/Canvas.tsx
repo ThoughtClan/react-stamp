@@ -32,6 +32,7 @@ import ICanvasData from '../../entities/ICanvasData';
 
 export interface ICanvasProps {
   canvasData: ICanvasData;
+  onLoadEnd?: () => void,
 }
 
 /**
@@ -40,10 +41,25 @@ export interface ICanvasProps {
 export default function Canvas({
   onFileDownload,
   canvasData,
+  onLoadEnd,
 }: ICanvasProps & Partial<IFileManagerProps>) {
   const downloadedFiles = React.useRef({});
+  const loadedImages = React.useRef({});
 
-  const getImage = (shape: IShape) => {
+  const [images, setImages] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    canvasData.shapes.filter(s => s.type === ShapeType.Image).forEach(downloadImage);
+  }, [JSON.stringify(canvasData)]);
+
+  React.useEffect(() => {
+    const expectedImages = canvasData.shapes.filter(s => s.type === ShapeType.Image).length;
+
+    if (typeof onLoadEnd === 'function' && expectedImages > 0 && images.length === expectedImages)
+      setTimeout(() => onLoadEnd(), 1000);
+  }, [JSON.stringify(images), JSON.stringify(canvasData)]);
+
+  const downloadImage = (shape: IShape) => {
     if (shape.type !== ShapeType.Image || !shape.image)
       return null;
 
@@ -63,6 +79,11 @@ export default function Canvas({
       } else {
         image.src = '';
       }
+
+      image.onload = function() {
+        loadedImages.current[shape.image] = image;
+        setImages([...images, shape.image]);
+      };
 
       return image;
     }
@@ -98,7 +119,7 @@ export default function Canvas({
     }
 
     const additionalProps = {
-      image: getImage(shape) ?? undefined,
+      image: images.includes(shape.image) ? loadedImages.current[shape.image] : undefined,
       draggable: false,
     };
 
