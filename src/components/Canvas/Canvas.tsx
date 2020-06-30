@@ -49,7 +49,18 @@ export default function Canvas({
   const [images, setImages] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    canvasData.shapes.filter(s => s.type === ShapeType.Image).forEach(downloadImage);
+    const images = canvasData.shapes.filter(s => s.type === ShapeType.Image);
+
+    console.log('Checking if any images to load', images.length, typeof onLoadEnd);
+
+    if (images.length === 0) {
+      if (typeof onLoadEnd === 'function')
+        onLoadEnd();
+
+      return;
+    }
+
+    images.forEach(downloadImage);
   }, [JSON.stringify(canvasData)]);
 
   React.useEffect(() => {
